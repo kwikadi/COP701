@@ -10,7 +10,14 @@ tokens = (
     'SECTION',
     'SUBSECTION',
     'TEXT',  # the actual text to be output
-    'NEWLINE'
+    'NEWLINE',
+    'ITALICS',
+    'BOLD',
+    'PAR',
+    'UNDERLINE',
+    'CAPTION',
+    'FRAC',
+    'SQRT'
     # 'WHITESPACE',
     )
 
@@ -18,21 +25,38 @@ tokens = (
 t_NEWLINE = r'[\n]'
 t_OB = r'{'
 t_CB = r'}'
-t_BS = r'\\'
 
 
 def t_TEXT(t):
-    r'[a-zA-Z0-9_., \t]+'
-    if t.value == 'section':
+    r'[a-zA-Z0-9_., \t\\]+'
+    if t.value == '\\section':
         t.type = 'SECTION'
-    elif t.value == 'subsection':
+    elif t.value == '\\subsection':
         t.type = 'SUBSECTION'
-    elif t.value == 'begin':
+    elif t.value == '\\begin':
         t.type = 'BEGIN'
-    elif t.value == 'end':
+    elif t.value == '\\end':
         t.type = 'END'
     elif t.value == 'document':
         t.type = 'DOC'
+    elif t.value == '\\textbf':
+        t.type = 'BOLD'
+    elif t.value == '\\textit':
+        t.type = 'ITALICS'
+    elif t.value == '\\par':
+        t.type = 'PAR'
+    elif t.value == '\\underline':
+        t.type = 'UNDERLINE'
+    elif t.value == 'enumerate':
+        t.type = 'ENUMERATE'
+    elif t.value == '\\item':
+        t.type = 'ITEM'
+    elif t.value == '\\caption':
+        t.type = 'CAPTION'
+    elif t.value == '\\frac':
+        t.type = 'FRAC'
+    elif t.value == '\\sqrt':
+        t.type = 'SQRT'
     return t
 
 
@@ -64,8 +88,8 @@ sollicitudin.  Praesent imperdiet mi necante...
 
 lexer.input(data)
 
-# while True:
-#     tok = lexer.token()
-#     if not tok:
-#         break
-#     print(tok)
+while True:
+    tok = lexer.token()
+    if not tok:
+        break
+    print(tok)

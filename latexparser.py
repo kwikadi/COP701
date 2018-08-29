@@ -12,13 +12,13 @@ def p_latex_complete(p):
 
 def p_doc_beginning(p):
     """
-    begindoc : BS BEGIN OB DOC CB NEWLINE
+    begindoc : BEGIN OB DOC CB NEWLINE
     """
 
 
 def p_doc_ending(p):
     """
-    enddoc : BS END OB DOC CB
+    enddoc : END OB DOC CB
     """
 
 
@@ -38,14 +38,14 @@ def p_single_statement(p):
 
 def p_section_statement(p):
     """
-    statement : BS SECTION OB TEXT CB
+    statement : SECTION OB TEXT CB
     """
     p[0] = Node('section', information=p[4])
 
 
 def p_subsection_statement(p):
     """
-    statement : BS SUBSECTION OB TEXT CB
+    statement : SUBSECTION OB TEXT CB
     """
     p[0] = Node('subsection', information=p[4])
 
@@ -62,6 +62,20 @@ def p_text_statement(p):
     statement : TEXT
     """
     p[0] = Node('text', information=p[1])
+
+
+def p_bold_statement(p):
+    """
+    statement : BOLD OB TEXT CB
+    """
+    p[0] = Node('bold', information=p[4])
+
+
+def p_italics_statement(p):
+    """
+    statement : ITALICS OB TEXT CB
+    """
+    p[0] = Node('italics', information=p[4])
 
 
 parser = yacc.yacc()
