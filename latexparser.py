@@ -78,6 +78,27 @@ def p_italics_statement(p):
     p[0] = Node('italics', information=p[4])
 
 
+def p_frac_statement(p):
+    """
+    statement : FRAC OB TEXT CB OB TEXT CB
+    """
+    p[0] = Node('fraction', information=[p[3],p[6]])
+
+
+def p_sqrt_statement(p):
+    """
+    statement : SQRT OB TEXT CB
+    """
+    p[0] = Node('sqrt', information=p[3])
+
+
+def p_caption_statement(p):
+    """
+    statement : CAPTION OB TEXT CB
+    """
+    p[0] = Node('caption', information=p[3])
+
+
 parser = yacc.yacc()
 
 result = parser.parse(data)
