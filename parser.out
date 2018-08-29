@@ -1,0 +1,594 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    BS
+    INT
+    PAR
+    SUM
+    UNDERLINE
+
+Grammar
+
+Rule 0     S' -> totaldoc
+Rule 1     totaldoc -> begindoc statements enddoc
+Rule 2     begindoc -> BEGIN OB DOC CB NEWLINE
+Rule 3     enddoc -> END OB DOC CB
+Rule 4     statements -> statements statement
+Rule 5     statements -> statement
+Rule 6     statement -> SECTION OB TEXT CB
+Rule 7     statement -> SUBSECTION OB TEXT CB
+Rule 8     statement -> NEWLINE
+Rule 9     statement -> TEXT
+Rule 10    statement -> BOLD OB TEXT CB
+Rule 11    statement -> ITALICS OB TEXT CB
+Rule 12    mathstat -> FRAC OB TEXT CB OB TEXT CB
+Rule 13    mathstat -> SQRT OB TEXT CB
+Rule 14    statement -> CAPTION OB TEXT CB
+Rule 15    statement -> DOLLAR mathstats DOLLAR
+Rule 16    mathstats -> mathstats mathstat
+Rule 17    mathstats -> mathstat
+
+Terminals, with rules where they appear
+
+BEGIN                : 2
+BOLD                 : 10
+BS                   : 
+CAPTION              : 14
+CB                   : 2 3 6 7 10 11 12 12 13 14
+DOC                  : 2 3
+DOLLAR               : 15 15
+END                  : 3
+FRAC                 : 12
+INT                  : 
+ITALICS              : 11
+NEWLINE              : 2 8
+OB                   : 2 3 6 7 10 11 12 12 13 14
+PAR                  : 
+SECTION              : 6
+SQRT                 : 13
+SUBSECTION           : 7
+SUM                  : 
+TEXT                 : 6 7 9 10 11 12 12 13 14
+UNDERLINE            : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+begindoc             : 1
+enddoc               : 1
+mathstat             : 16 17
+mathstats            : 15 16
+statement            : 4 5
+statements           : 1 4
+totaldoc             : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . totaldoc
+    (1) totaldoc -> . begindoc statements enddoc
+    (2) begindoc -> . BEGIN OB DOC CB NEWLINE
+
+    BEGIN           shift and go to state 3
+
+    totaldoc                       shift and go to state 1
+    begindoc                       shift and go to state 2
+
+state 1
+
+    (0) S' -> totaldoc .
+
+
+
+state 2
+
+    (1) totaldoc -> begindoc . statements enddoc
+    (4) statements -> . statements statement
+    (5) statements -> . statement
+    (6) statement -> . SECTION OB TEXT CB
+    (7) statement -> . SUBSECTION OB TEXT CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB TEXT CB
+    (11) statement -> . ITALICS OB TEXT CB
+    (14) statement -> . CAPTION OB TEXT CB
+    (15) statement -> . DOLLAR mathstats DOLLAR
+
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 9
+    TEXT            shift and go to state 7
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    CAPTION         shift and go to state 12
+    DOLLAR          shift and go to state 13
+
+    statements                     shift and go to state 4
+    statement                      shift and go to state 5
+
+state 3
+
+    (2) begindoc -> BEGIN . OB DOC CB NEWLINE
+
+    OB              shift and go to state 14
+
+
+state 4
+
+    (1) totaldoc -> begindoc statements . enddoc
+    (4) statements -> statements . statement
+    (3) enddoc -> . END OB DOC CB
+    (6) statement -> . SECTION OB TEXT CB
+    (7) statement -> . SUBSECTION OB TEXT CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB TEXT CB
+    (11) statement -> . ITALICS OB TEXT CB
+    (14) statement -> . CAPTION OB TEXT CB
+    (15) statement -> . DOLLAR mathstats DOLLAR
+
+    END             shift and go to state 17
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 9
+    TEXT            shift and go to state 7
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    CAPTION         shift and go to state 12
+    DOLLAR          shift and go to state 13
+
+    enddoc                         shift and go to state 15
+    statement                      shift and go to state 16
+
+state 5
+
+    (5) statements -> statement .
+
+    END             reduce using rule 5 (statements -> statement .)
+    SECTION         reduce using rule 5 (statements -> statement .)
+    SUBSECTION      reduce using rule 5 (statements -> statement .)
+    NEWLINE         reduce using rule 5 (statements -> statement .)
+    TEXT            reduce using rule 5 (statements -> statement .)
+    BOLD            reduce using rule 5 (statements -> statement .)
+    ITALICS         reduce using rule 5 (statements -> statement .)
+    CAPTION         reduce using rule 5 (statements -> statement .)
+    DOLLAR          reduce using rule 5 (statements -> statement .)
+
+
+state 6
+
+    (6) statement -> SECTION . OB TEXT CB
+
+    OB              shift and go to state 18
+
+
+state 7
+
+    (9) statement -> TEXT .
+
+    END             reduce using rule 9 (statement -> TEXT .)
+    SECTION         reduce using rule 9 (statement -> TEXT .)
+    SUBSECTION      reduce using rule 9 (statement -> TEXT .)
+    NEWLINE         reduce using rule 9 (statement -> TEXT .)
+    TEXT            reduce using rule 9 (statement -> TEXT .)
+    BOLD            reduce using rule 9 (statement -> TEXT .)
+    ITALICS         reduce using rule 9 (statement -> TEXT .)
+    CAPTION         reduce using rule 9 (statement -> TEXT .)
+    DOLLAR          reduce using rule 9 (statement -> TEXT .)
+
+
+state 8
+
+    (7) statement -> SUBSECTION . OB TEXT CB
+
+    OB              shift and go to state 19
+
+
+state 9
+
+    (8) statement -> NEWLINE .
+
+    END             reduce using rule 8 (statement -> NEWLINE .)
+    SECTION         reduce using rule 8 (statement -> NEWLINE .)
+    SUBSECTION      reduce using rule 8 (statement -> NEWLINE .)
+    NEWLINE         reduce using rule 8 (statement -> NEWLINE .)
+    TEXT            reduce using rule 8 (statement -> NEWLINE .)
+    BOLD            reduce using rule 8 (statement -> NEWLINE .)
+    ITALICS         reduce using rule 8 (statement -> NEWLINE .)
+    CAPTION         reduce using rule 8 (statement -> NEWLINE .)
+    DOLLAR          reduce using rule 8 (statement -> NEWLINE .)
+
+
+state 10
+
+    (10) statement -> BOLD . OB TEXT CB
+
+    OB              shift and go to state 20
+
+
+state 11
+
+    (11) statement -> ITALICS . OB TEXT CB
+
+    OB              shift and go to state 21
+
+
+state 12
+
+    (14) statement -> CAPTION . OB TEXT CB
+
+    OB              shift and go to state 22
+
+
+state 13
+
+    (15) statement -> DOLLAR . mathstats DOLLAR
+    (16) mathstats -> . mathstats mathstat
+    (17) mathstats -> . mathstat
+    (12) mathstat -> . FRAC OB TEXT CB OB TEXT CB
+    (13) mathstat -> . SQRT OB TEXT CB
+
+    FRAC            shift and go to state 25
+    SQRT            shift and go to state 26
+
+    mathstats                      shift and go to state 23
+    mathstat                       shift and go to state 24
+
+state 14
+
+    (2) begindoc -> BEGIN OB . DOC CB NEWLINE
+
+    DOC             shift and go to state 27
+
+
+state 15
+
+    (1) totaldoc -> begindoc statements enddoc .
+
+    $end            reduce using rule 1 (totaldoc -> begindoc statements enddoc .)
+
+
+state 16
+
+    (4) statements -> statements statement .
+
+    END             reduce using rule 4 (statements -> statements statement .)
+    SECTION         reduce using rule 4 (statements -> statements statement .)
+    SUBSECTION      reduce using rule 4 (statements -> statements statement .)
+    NEWLINE         reduce using rule 4 (statements -> statements statement .)
+    TEXT            reduce using rule 4 (statements -> statements statement .)
+    BOLD            reduce using rule 4 (statements -> statements statement .)
+    ITALICS         reduce using rule 4 (statements -> statements statement .)
+    CAPTION         reduce using rule 4 (statements -> statements statement .)
+    DOLLAR          reduce using rule 4 (statements -> statements statement .)
+
+
+state 17
+
+    (3) enddoc -> END . OB DOC CB
+
+    OB              shift and go to state 28
+
+
+state 18
+
+    (6) statement -> SECTION OB . TEXT CB
+
+    TEXT            shift and go to state 29
+
+
+state 19
+
+    (7) statement -> SUBSECTION OB . TEXT CB
+
+    TEXT            shift and go to state 30
+
+
+state 20
+
+    (10) statement -> BOLD OB . TEXT CB
+
+    TEXT            shift and go to state 31
+
+
+state 21
+
+    (11) statement -> ITALICS OB . TEXT CB
+
+    TEXT            shift and go to state 32
+
+
+state 22
+
+    (14) statement -> CAPTION OB . TEXT CB
+
+    TEXT            shift and go to state 33
+
+
+state 23
+
+    (15) statement -> DOLLAR mathstats . DOLLAR
+    (16) mathstats -> mathstats . mathstat
+    (12) mathstat -> . FRAC OB TEXT CB OB TEXT CB
+    (13) mathstat -> . SQRT OB TEXT CB
+
+    DOLLAR          shift and go to state 34
+    FRAC            shift and go to state 25
+    SQRT            shift and go to state 26
+
+    mathstat                       shift and go to state 35
+
+state 24
+
+    (17) mathstats -> mathstat .
+
+    DOLLAR          reduce using rule 17 (mathstats -> mathstat .)
+    FRAC            reduce using rule 17 (mathstats -> mathstat .)
+    SQRT            reduce using rule 17 (mathstats -> mathstat .)
+
+
+state 25
+
+    (12) mathstat -> FRAC . OB TEXT CB OB TEXT CB
+
+    OB              shift and go to state 36
+
+
+state 26
+
+    (13) mathstat -> SQRT . OB TEXT CB
+
+    OB              shift and go to state 37
+
+
+state 27
+
+    (2) begindoc -> BEGIN OB DOC . CB NEWLINE
+
+    CB              shift and go to state 38
+
+
+state 28
+
+    (3) enddoc -> END OB . DOC CB
+
+    DOC             shift and go to state 39
+
+
+state 29
+
+    (6) statement -> SECTION OB TEXT . CB
+
+    CB              shift and go to state 40
+
+
+state 30
+
+    (7) statement -> SUBSECTION OB TEXT . CB
+
+    CB              shift and go to state 41
+
+
+state 31
+
+    (10) statement -> BOLD OB TEXT . CB
+
+    CB              shift and go to state 42
+
+
+state 32
+
+    (11) statement -> ITALICS OB TEXT . CB
+
+    CB              shift and go to state 43
+
+
+state 33
+
+    (14) statement -> CAPTION OB TEXT . CB
+
+    CB              shift and go to state 44
+
+
+state 34
+
+    (15) statement -> DOLLAR mathstats DOLLAR .
+
+    END             reduce using rule 15 (statement -> DOLLAR mathstats DOLLAR .)
+    SECTION         reduce using rule 15 (statement -> DOLLAR mathstats DOLLAR .)
+    SUBSECTION      reduce using rule 15 (statement -> DOLLAR mathstats DOLLAR .)
+    NEWLINE         reduce using rule 15 (statement -> DOLLAR mathstats DOLLAR .)
+    TEXT            reduce using rule 15 (statement -> DOLLAR mathstats DOLLAR .)
+    BOLD            reduce using rule 15 (statement -> DOLLAR mathstats DOLLAR .)
+    ITALICS         reduce using rule 15 (statement -> DOLLAR mathstats DOLLAR .)
+    CAPTION         reduce using rule 15 (statement -> DOLLAR mathstats DOLLAR .)
+    DOLLAR          reduce using rule 15 (statement -> DOLLAR mathstats DOLLAR .)
+
+
+state 35
+
+    (16) mathstats -> mathstats mathstat .
+
+    DOLLAR          reduce using rule 16 (mathstats -> mathstats mathstat .)
+    FRAC            reduce using rule 16 (mathstats -> mathstats mathstat .)
+    SQRT            reduce using rule 16 (mathstats -> mathstats mathstat .)
+
+
+state 36
+
+    (12) mathstat -> FRAC OB . TEXT CB OB TEXT CB
+
+    TEXT            shift and go to state 45
+
+
+state 37
+
+    (13) mathstat -> SQRT OB . TEXT CB
+
+    TEXT            shift and go to state 46
+
+
+state 38
+
+    (2) begindoc -> BEGIN OB DOC CB . NEWLINE
+
+    NEWLINE         shift and go to state 47
+
+
+state 39
+
+    (3) enddoc -> END OB DOC . CB
+
+    CB              shift and go to state 48
+
+
+state 40
+
+    (6) statement -> SECTION OB TEXT CB .
+
+    END             reduce using rule 6 (statement -> SECTION OB TEXT CB .)
+    SECTION         reduce using rule 6 (statement -> SECTION OB TEXT CB .)
+    SUBSECTION      reduce using rule 6 (statement -> SECTION OB TEXT CB .)
+    NEWLINE         reduce using rule 6 (statement -> SECTION OB TEXT CB .)
+    TEXT            reduce using rule 6 (statement -> SECTION OB TEXT CB .)
+    BOLD            reduce using rule 6 (statement -> SECTION OB TEXT CB .)
+    ITALICS         reduce using rule 6 (statement -> SECTION OB TEXT CB .)
+    CAPTION         reduce using rule 6 (statement -> SECTION OB TEXT CB .)
+    DOLLAR          reduce using rule 6 (statement -> SECTION OB TEXT CB .)
+
+
+state 41
+
+    (7) statement -> SUBSECTION OB TEXT CB .
+
+    END             reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
+    SECTION         reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
+    SUBSECTION      reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
+    NEWLINE         reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
+    TEXT            reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
+    BOLD            reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
+    ITALICS         reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
+    CAPTION         reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
+    DOLLAR          reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
+
+
+state 42
+
+    (10) statement -> BOLD OB TEXT CB .
+
+    END             reduce using rule 10 (statement -> BOLD OB TEXT CB .)
+    SECTION         reduce using rule 10 (statement -> BOLD OB TEXT CB .)
+    SUBSECTION      reduce using rule 10 (statement -> BOLD OB TEXT CB .)
+    NEWLINE         reduce using rule 10 (statement -> BOLD OB TEXT CB .)
+    TEXT            reduce using rule 10 (statement -> BOLD OB TEXT CB .)
+    BOLD            reduce using rule 10 (statement -> BOLD OB TEXT CB .)
+    ITALICS         reduce using rule 10 (statement -> BOLD OB TEXT CB .)
+    CAPTION         reduce using rule 10 (statement -> BOLD OB TEXT CB .)
+    DOLLAR          reduce using rule 10 (statement -> BOLD OB TEXT CB .)
+
+
+state 43
+
+    (11) statement -> ITALICS OB TEXT CB .
+
+    END             reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
+    SECTION         reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
+    SUBSECTION      reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
+    NEWLINE         reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
+    TEXT            reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
+    BOLD            reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
+    ITALICS         reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
+    CAPTION         reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
+    DOLLAR          reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
+
+
+state 44
+
+    (14) statement -> CAPTION OB TEXT CB .
+
+    END             reduce using rule 14 (statement -> CAPTION OB TEXT CB .)
+    SECTION         reduce using rule 14 (statement -> CAPTION OB TEXT CB .)
+    SUBSECTION      reduce using rule 14 (statement -> CAPTION OB TEXT CB .)
+    NEWLINE         reduce using rule 14 (statement -> CAPTION OB TEXT CB .)
+    TEXT            reduce using rule 14 (statement -> CAPTION OB TEXT CB .)
+    BOLD            reduce using rule 14 (statement -> CAPTION OB TEXT CB .)
+    ITALICS         reduce using rule 14 (statement -> CAPTION OB TEXT CB .)
+    CAPTION         reduce using rule 14 (statement -> CAPTION OB TEXT CB .)
+    DOLLAR          reduce using rule 14 (statement -> CAPTION OB TEXT CB .)
+
+
+state 45
+
+    (12) mathstat -> FRAC OB TEXT . CB OB TEXT CB
+
+    CB              shift and go to state 49
+
+
+state 46
+
+    (13) mathstat -> SQRT OB TEXT . CB
+
+    CB              shift and go to state 50
+
+
+state 47
+
+    (2) begindoc -> BEGIN OB DOC CB NEWLINE .
+
+    SECTION         reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
+    SUBSECTION      reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
+    NEWLINE         reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
+    TEXT            reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
+    BOLD            reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
+    ITALICS         reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
+    CAPTION         reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
+    DOLLAR          reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
+
+
+state 48
+
+    (3) enddoc -> END OB DOC CB .
+
+    $end            reduce using rule 3 (enddoc -> END OB DOC CB .)
+
+
+state 49
+
+    (12) mathstat -> FRAC OB TEXT CB . OB TEXT CB
+
+    OB              shift and go to state 51
+
+
+state 50
+
+    (13) mathstat -> SQRT OB TEXT CB .
+
+    DOLLAR          reduce using rule 13 (mathstat -> SQRT OB TEXT CB .)
+    FRAC            reduce using rule 13 (mathstat -> SQRT OB TEXT CB .)
+    SQRT            reduce using rule 13 (mathstat -> SQRT OB TEXT CB .)
+
+
+state 51
+
+    (12) mathstat -> FRAC OB TEXT CB OB . TEXT CB
+
+    TEXT            shift and go to state 52
+
+
+state 52
+
+    (12) mathstat -> FRAC OB TEXT CB OB TEXT . CB
+
+    CB              shift and go to state 53
+
+
+state 53
+
+    (12) mathstat -> FRAC OB TEXT CB OB TEXT CB .
+
+    DOLLAR          reduce using rule 12 (mathstat -> FRAC OB TEXT CB OB TEXT CB .)
+    FRAC            reduce using rule 12 (mathstat -> FRAC OB TEXT CB OB TEXT CB .)
+    SQRT            reduce using rule 12 (mathstat -> FRAC OB TEXT CB OB TEXT CB .)
+

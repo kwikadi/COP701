@@ -17,14 +17,18 @@ tokens = (
     'UNDERLINE',
     'CAPTION',
     'FRAC',
-    'SQRT'
+    'SQRT',
+    'DOLLAR',
+    'SUM',
+    'INT'
     # 'WHITESPACE',
     )
 
 # t_WHITESPACE = r'[ \t]+'
-t_NEWLINE = r'[\n]'
+t_NEWLINE = r'[\n]+'
 t_OB = r'{'
 t_CB = r'}'
+t_DOLLAR = r'\$'
 
 
 def t_TEXT(t):
@@ -57,6 +61,14 @@ def t_TEXT(t):
         t.type = 'FRAC'
     elif t.value == '\\sqrt':
         t.type = 'SQRT'
+    elif t.value == '\\sum':
+        t.type = 'SUM'
+    elif t.value == '\\int':
+        t.type = 'INT'
+    elif t.value == '\\includegraphics':
+        t.type = 'GRAPHICS'
+    elif t.value == '\\graphicspath':
+        t.type = 'GRAP_PATH'
     return t
 
 
@@ -73,15 +85,15 @@ data = r'''\begin{document}
 
 This is the first section.
 
-Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing  
-elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et 
-neque pharetra sollicitudin.  Praesent imperdietmi nec ante. 
+Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing
+elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et
+neque pharetra sollicitudin.  Praesent imperdietmi nec ante.
 Donec ullamcorper, felis non sodales...
 
 \section{Second Section}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit.  
-Etiam lobortis facilisissem.  Nullam nec mi et neque pharetra 
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+Etiam lobortis facilisissem.  Nullam nec mi et neque pharetra
 sollicitudin.  Praesent imperdiet mi necante...
 
 \end{document}'''
