@@ -64,8 +64,7 @@ def t_COMMAND(t):
         t.type = 'INT'
     elif t.value == '\\includegraphics':
         t.type = 'GRAPHICS'
-    elif t.value == '\\graphicspath':
-        t.type = 'GRAP_PATH'
+
     return t
 
 
@@ -95,7 +94,7 @@ This is the \textit{first} section.
 
 Lorem  \textbf{ipsum  dolor  sit  amet,  consectetuer}  adipiscing
 elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et
-neque pharetra sollicitudin.  Praesent imperdietmi nec ante.
+neque pharetra \underline{sollicitudin.  Praesent} imperdietmi nec ante.
 Donec ullamcorper, felis non sodales...
 
 \section{Second Section}

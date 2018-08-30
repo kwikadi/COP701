@@ -92,6 +92,12 @@ def p_sqrt_statement(p):
     p[0] = Node('sqrt', information=p[3])
 
 
+def p_underline_statement(p):
+    """
+    statement : UNDERLINE OB TEXT CB
+    """
+    p[0] = Node('underline', information=p[3])
+
 def p_caption_statement(p):
     """
     statement : CAPTION OB TEXT CB

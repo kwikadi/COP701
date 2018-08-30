@@ -33,6 +33,7 @@ def parse_ast(node):
             for i in node.children:
                 parse_ast(i)
         elif node.type == 'section':
+            subsection_num = 0
             section_num += 1
             body_string += f'<h2>{section_num} {node.information}</h2>'
         elif node.type == 'newline':
@@ -46,3 +47,5 @@ def parse_ast(node):
             body_string += f'<i>{node.information}</i>'
         elif node.type == 'bold':
             body_string += f'<b>{node.information}</b>'
+        elif node.type == 'underline':
+            body_string += f'<u>{node.information}</u>'

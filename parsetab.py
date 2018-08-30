@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'BEGIN BOLD BS CAPTION CB COMMAND DOC DOLLAR END FRAC INT ITALICS NEWLINE OB PAR SECTION SQRT SUBSECTION SUM TEXT UNDERLINE\n    totaldoc : begindoc statements enddoc\n    \n    begindoc : BEGIN OB DOC CB NEWLINE\n    \n    enddoc : END OB DOC CB\n    \n    statements : statements statement\n    \n    statements : statement\n    \n    statement : SECTION OB TEXT CB\n    \n    statement : SUBSECTION OB TEXT CB\n    \n    statement : NEWLINE\n    \n    statement : TEXT\n    \n    statement : BOLD OB TEXT CB\n    \n    statement : ITALICS OB TEXT CB\n    \n    mathstat : FRAC OB TEXT CB OB TEXT CB\n    \n    mathstat : SQRT OB TEXT CB\n    \n    statement : CAPTION OB TEXT CB\n    \n    statement : DOLLAR mathstats DOLLAR\n    \n    mathstats : mathstats mathstat\n    \n    mathstats : mathstat\n    '
+_lr_signature = 'BEGIN BOLD BS CAPTION CB COMMAND DOC DOLLAR END FRAC INT ITALICS NEWLINE OB PAR SECTION SQRT SUBSECTION SUM TEXT UNDERLINE\n    totaldoc : begindoc statements enddoc\n    \n    begindoc : BEGIN OB DOC CB NEWLINE\n    \n    enddoc : END OB DOC CB\n    \n    statements : statements statement\n    \n    statements : statement\n    \n    statement : SECTION OB TEXT CB\n    \n    statement : SUBSECTION OB TEXT CB\n    \n    statement : NEWLINE\n    \n    statement : TEXT\n    \n    statement : BOLD OB TEXT CB\n    \n    statement : ITALICS OB TEXT CB\n    \n    mathstat : FRAC OB TEXT CB OB TEXT CB\n    \n    mathstat : SQRT OB TEXT CB\n    \n    statement : UNDERLINE OB TEXT CB\n    \n    statement : CAPTION OB TEXT CB\n    \n    statement : DOLLAR mathstats DOLLAR\n    \n    mathstats : mathstats mathstat\n    \n    mathstats : mathstat\n    '
     
-_lr_action_items = {'BEGIN':([0,],[3,]),'$end':([1,15,48,],[0,-1,-3,]),'SECTION':([2,4,5,7,9,16,34,40,41,42,43,44,47,],[6,6,-5,-9,-8,-4,-15,-6,-7,-10,-11,-14,-2,]),'SUBSECTION':([2,4,5,7,9,16,34,40,41,42,43,44,47,],[8,8,-5,-9,-8,-4,-15,-6,-7,-10,-11,-14,-2,]),'NEWLINE':([2,4,5,7,9,16,34,38,40,41,42,43,44,47,],[9,9,-5,-9,-8,-4,-15,47,-6,-7,-10,-11,-14,-2,]),'TEXT':([2,4,5,7,9,16,18,19,20,21,22,34,36,37,40,41,42,43,44,47,51,],[7,7,-5,-9,-8,-4,29,30,31,32,33,-15,45,46,-6,-7,-10,-11,-14,-2,52,]),'BOLD':([2,4,5,7,9,16,34,40,41,42,43,44,47,],[10,10,-5,-9,-8,-4,-15,-6,-7,-10,-11,-14,-2,]),'ITALICS':([2,4,5,7,9,16,34,40,41,42,43,44,47,],[11,11,-5,-9,-8,-4,-15,-6,-7,-10,-11,-14,-2,]),'CAPTION':([2,4,5,7,9,16,34,40,41,42,43,44,47,],[12,12,-5,-9,-8,-4,-15,-6,-7,-10,-11,-14,-2,]),'DOLLAR':([2,4,5,7,9,16,23,24,34,35,40,41,42,43,44,47,50,53,],[13,13,-5,-9,-8,-4,34,-17,-15,-16,-6,-7,-10,-11,-14,-2,-13,-12,]),'OB':([3,6,8,10,11,12,17,25,26,49,],[14,18,19,20,21,22,28,36,37,51,]),'END':([4,5,7,9,16,34,40,41,42,43,44,],[17,-5,-9,-8,-4,-15,-6,-7,-10,-11,-14,]),'FRAC':([13,23,24,35,50,53,],[25,25,-17,-16,-13,-12,]),'SQRT':([13,23,24,35,50,53,],[26,26,-17,-16,-13,-12,]),'DOC':([14,28,],[27,39,]),'CB':([27,29,30,31,32,33,39,45,46,52,],[38,40,41,42,43,44,48,49,50,53,]),}
+_lr_action_items = {'BEGIN':([0,],[3,]),'$end':([1,16,52,],[0,-1,-3,]),'SECTION':([2,4,5,7,9,17,37,43,44,45,46,47,48,51,],[6,6,-5,-9,-8,-4,-16,-6,-7,-10,-11,-14,-15,-2,]),'SUBSECTION':([2,4,5,7,9,17,37,43,44,45,46,47,48,51,],[8,8,-5,-9,-8,-4,-16,-6,-7,-10,-11,-14,-15,-2,]),'NEWLINE':([2,4,5,7,9,17,37,41,43,44,45,46,47,48,51,],[9,9,-5,-9,-8,-4,-16,51,-6,-7,-10,-11,-14,-15,-2,]),'TEXT':([2,4,5,7,9,17,19,20,21,22,23,24,37,39,40,43,44,45,46,47,48,51,55,],[7,7,-5,-9,-8,-4,31,32,33,34,35,36,-16,49,50,-6,-7,-10,-11,-14,-15,-2,56,]),'BOLD':([2,4,5,7,9,17,37,43,44,45,46,47,48,51,],[10,10,-5,-9,-8,-4,-16,-6,-7,-10,-11,-14,-15,-2,]),'ITALICS':([2,4,5,7,9,17,37,43,44,45,46,47,48,51,],[11,11,-5,-9,-8,-4,-16,-6,-7,-10,-11,-14,-15,-2,]),'UNDERLINE':([2,4,5,7,9,17,37,43,44,45,46,47,48,51,],[12,12,-5,-9,-8,-4,-16,-6,-7,-10,-11,-14,-15,-2,]),'CAPTION':([2,4,5,7,9,17,37,43,44,45,46,47,48,51,],[13,13,-5,-9,-8,-4,-16,-6,-7,-10,-11,-14,-15,-2,]),'DOLLAR':([2,4,5,7,9,17,25,26,37,38,43,44,45,46,47,48,51,54,57,],[14,14,-5,-9,-8,-4,37,-18,-16,-17,-6,-7,-10,-11,-14,-15,-2,-13,-12,]),'OB':([3,6,8,10,11,12,13,18,27,28,53,],[15,19,20,21,22,23,24,30,39,40,55,]),'END':([4,5,7,9,17,37,43,44,45,46,47,48,],[18,-5,-9,-8,-4,-16,-6,-7,-10,-11,-14,-15,]),'FRAC':([14,25,26,38,54,57,],[27,27,-18,-17,-13,-12,]),'SQRT':([14,25,26,38,54,57,],[28,28,-18,-17,-13,-12,]),'DOC':([15,30,],[29,42,]),'CB':([29,31,32,33,34,35,36,42,49,50,56,],[41,43,44,45,46,47,48,52,53,54,57,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'totaldoc':([0,],[1,]),'begindoc':([0,],[2,]),'statements':([2,],[4,]),'statement':([2,4,],[5,16,]),'enddoc':([4,],[15,]),'mathstats':([13,],[23,]),'mathstat':([13,23,],[24,35,]),}
+_lr_goto_items = {'totaldoc':([0,],[1,]),'begindoc':([0,],[2,]),'statements':([2,],[4,]),'statement':([2,4,],[5,17,]),'enddoc':([4,],[16,]),'mathstats':([14,],[25,]),'mathstat':([14,25,],[26,38,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -40,8 +40,9 @@ _lr_productions = [
   ('statement -> ITALICS OB TEXT CB','statement',4,'p_italics_statement','latexparser.py',76),
   ('mathstat -> FRAC OB TEXT CB OB TEXT CB','mathstat',7,'p_frac_statement','latexparser.py',83),
   ('mathstat -> SQRT OB TEXT CB','mathstat',4,'p_sqrt_statement','latexparser.py',90),
-  ('statement -> CAPTION OB TEXT CB','statement',4,'p_caption_statement','latexparser.py',97),
-  ('statement -> DOLLAR mathstats DOLLAR','statement',3,'p_math_mode','latexparser.py',104),
-  ('mathstats -> mathstats mathstat','mathstats',2,'p_math_statements','latexparser.py',111),
-  ('mathstats -> mathstat','mathstats',1,'p_math_statement','latexparser.py',118),
+  ('statement -> UNDERLINE OB TEXT CB','statement',4,'p_underline_statement','latexparser.py',97),
+  ('statement -> CAPTION OB TEXT CB','statement',4,'p_caption_statement','latexparser.py',103),
+  ('statement -> DOLLAR mathstats DOLLAR','statement',3,'p_math_mode','latexparser.py',110),
+  ('mathstats -> mathstats mathstat','mathstats',2,'p_math_statements','latexparser.py',117),
+  ('mathstats -> mathstat','mathstats',1,'p_math_statement','latexparser.py',124),
 ]
