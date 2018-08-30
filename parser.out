@@ -3,6 +3,7 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Unused terminals:
 
     BS
+    COMMAND
     INT
     PAR
     SUM
@@ -36,6 +37,7 @@ BOLD                 : 10
 BS                   : 
 CAPTION              : 14
 CB                   : 2 3 6 7 10 11 12 12 13 14
+COMMAND              : 
 DOC                  : 2 3
 DOLLAR               : 15 15
 END                  : 3

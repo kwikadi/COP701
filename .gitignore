@@ -4,6 +4,9 @@ __pycache__/
 *$py.class
 
 .idea
+*.html
+*.out
+parsetab.py
 
 # C extensions
 *.so

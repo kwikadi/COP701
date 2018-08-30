@@ -68,14 +68,14 @@ def p_bold_statement(p):
     """
     statement : BOLD OB TEXT CB
     """
-    p[0] = Node('bold', information=p[4])
+    p[0] = Node('bold', information=p[3])
 
 
 def p_italics_statement(p):
     """
     statement : ITALICS OB TEXT CB
     """
-    p[0] = Node('italics', information=p[4])
+    p[0] = Node('italics', information=p[3])
 
 
 def p_frac_statement(p):

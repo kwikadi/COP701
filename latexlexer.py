@@ -20,7 +20,8 @@ tokens = (
     'SQRT',
     'DOLLAR',
     'SUM',
-    'INT'
+    'INT',
+    'COMMAND'
     # 'WHITESPACE',
     )
 
@@ -30,9 +31,9 @@ t_OB = r'{'
 t_CB = r'}'
 t_DOLLAR = r'\$'
 
+def t_COMMAND(t):
+    r'\\[a-z]+'
 
-def t_TEXT(t):
-    r'[a-zA-Z0-9_., \t\\]+'
     if t.value == '\\section':
         t.type = 'SECTION'
     elif t.value == '\\subsection':
@@ -41,8 +42,6 @@ def t_TEXT(t):
         t.type = 'BEGIN'
     elif t.value == '\\end':
         t.type = 'END'
-    elif t.value == 'document':
-        t.type = 'DOC'
     elif t.value == '\\textbf':
         t.type = 'BOLD'
     elif t.value == '\\textit':
@@ -51,8 +50,6 @@ def t_TEXT(t):
         t.type = 'PAR'
     elif t.value == '\\underline':
         t.type = 'UNDERLINE'
-    elif t.value == 'enumerate':
-        t.type = 'ENUMERATE'
     elif t.value == '\\item':
         t.type = 'ITEM'
     elif t.value == '\\caption':
@@ -72,6 +69,17 @@ def t_TEXT(t):
     return t
 
 
+def t_TEXT(t):
+    r'[a-zA-Z0-9_., \t]+'
+
+    if t.value == 'document':
+        t.type = 'DOC'
+    elif t.value == 'enumerate':
+        t.type = 'ENUMERATE'
+
+    return t
+
+
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
@@ -83,9 +91,9 @@ data = r'''\begin{document}
 
 \section{Introduction}
 
-This is the first section.
+This is the \textit{first} section.
 
-Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing
+Lorem  \textbf{ipsum  dolor  sit  amet,  consectetuer}  adipiscing
 elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et
 neque pharetra sollicitudin.  Praesent imperdietmi nec ante.
 Donec ullamcorper, felis non sodales...
