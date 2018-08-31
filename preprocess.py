@@ -31,11 +31,11 @@ def clean_input_file(inputfile):
             cleaned_string += clean_input_string(i)
         continue
 
-    print( cleaned_string )
+    # print( cleaned_string )
     return cleaned_string
 
 
-if __name__ == '__main__':
+def clean_input():
     inputfile = get_input()
     cleanedfile = clean_input_file(inputfile)
-    # TODO: Call the parser
+    return cleanedfile

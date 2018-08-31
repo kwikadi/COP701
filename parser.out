@@ -2,11 +2,7 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    BS
     COMMAND
-    INT
-    PAR
-    SUM
 
 Grammar
 
@@ -16,53 +12,74 @@ Rule 2     begindoc -> BEGIN OB DOC CB NEWLINE
 Rule 3     enddoc -> END OB DOC CB
 Rule 4     statements -> statements statement
 Rule 5     statements -> statement
-Rule 6     statement -> SECTION OB TEXT CB
-Rule 7     statement -> SUBSECTION OB TEXT CB
+Rule 6     statement -> SECTION OB statements CB
+Rule 7     statement -> SUBSECTION OB statements CB
 Rule 8     statement -> NEWLINE
 Rule 9     statement -> TEXT
-Rule 10    statement -> BOLD OB TEXT CB
-Rule 11    statement -> ITALICS OB TEXT CB
-Rule 12    mathstat -> FRAC OB TEXT CB OB TEXT CB
-Rule 13    mathstat -> SQRT OB TEXT CB
-Rule 14    statement -> UNDERLINE OB TEXT CB
-Rule 15    statement -> CAPTION OB TEXT CB
+Rule 10    statement -> BOLD OB statements CB
+Rule 11    statement -> ITALICS OB statements CB
+Rule 12    mathstat -> FRAC OB mathstats CB OB mathstats CB
+Rule 13    mathstat -> SQRT OB mathstats CB
+Rule 14    statement -> UNDERLINE OB statements CB
+Rule 15    statement -> CAPTION OB statements CB
 Rule 16    statement -> DOLLAR mathstats DOLLAR
 Rule 17    mathstats -> mathstats mathstat
 Rule 18    mathstats -> mathstat
+Rule 19    mathstats -> TEXT
+Rule 20    statement -> PAR
+Rule 21    beginenum -> BEGIN OB ENUMERATE CB
+Rule 22    beginitemize -> BEGIN OB ITEMIZE CB
+Rule 23    endenum -> END OB ENUMERATE CB
+Rule 24    enditemize -> END OB ITEMIZE CB
+Rule 25    statement -> beginenum statements endenum
+Rule 26    statement -> beginitemize statements enditemize
+Rule 27    statement -> ITEM statement
+Rule 28    statement -> INCLUDEGRAPHICS OB TEXT CB
+Rule 29    mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+Rule 30    mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
 
 Terminals, with rules where they appear
 
-BEGIN                : 2
+BEGIN                : 2 21 22
 BOLD                 : 10
-BS                   : 
 CAPTION              : 15
-CB                   : 2 3 6 7 10 11 12 12 13 14 15
+CARET                : 29 30
+CB                   : 2 3 6 7 10 11 12 12 13 14 15 21 22 23 24 28 29 29 30 30
 COMMAND              : 
 DOC                  : 2 3
 DOLLAR               : 16 16
-END                  : 3
+END                  : 3 23 24
+ENUMERATE            : 21 23
 FRAC                 : 12
-INT                  : 
+INCLUDEGRAPHICS      : 28
+INT                  : 29
 ITALICS              : 11
+ITEM                 : 27
+ITEMIZE              : 22 24
 NEWLINE              : 2 8
-OB                   : 2 3 6 7 10 11 12 12 13 14 15
-PAR                  : 
+OB                   : 2 3 6 7 10 11 12 12 13 14 15 21 22 23 24 28 29 29 30 30
+PAR                  : 20
 SECTION              : 6
 SQRT                 : 13
 SUBSECTION           : 7
-SUM                  : 
-TEXT                 : 6 7 9 10 11 12 12 13 14 15
+SUM                  : 30
+TEXT                 : 9 19 28 29 29 30 30
 UNDERLINE            : 14
+UNDERSCORE           : 29 30
 error                : 
 
 Nonterminals, with rules where they appear
 
 begindoc             : 1
+beginenum            : 25
+beginitemize         : 26
 enddoc               : 1
-mathstat             : 17 18
-mathstats            : 16 17
-statement            : 4 5
-statements           : 1 4
+endenum              : 25
+enditemize           : 26
+mathstat             : 17 18 29 30
+mathstats            : 12 12 13 16 17
+statement            : 4 5 27
+statements           : 1 4 6 7 10 11 14 15 25 26
 totaldoc             : 0
 
 Parsing method: LALR
@@ -89,34 +106,47 @@ state 2
     (1) totaldoc -> begindoc . statements enddoc
     (4) statements -> . statements statement
     (5) statements -> . statement
-    (6) statement -> . SECTION OB TEXT CB
-    (7) statement -> . SUBSECTION OB TEXT CB
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
     (8) statement -> . NEWLINE
     (9) statement -> . TEXT
-    (10) statement -> . BOLD OB TEXT CB
-    (11) statement -> . ITALICS OB TEXT CB
-    (14) statement -> . UNDERLINE OB TEXT CB
-    (15) statement -> . CAPTION OB TEXT CB
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
     (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
     SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 8
-    NEWLINE         shift and go to state 9
-    TEXT            shift and go to state 7
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
     UNDERLINE       shift and go to state 12
     CAPTION         shift and go to state 13
     DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
 
     statements                     shift and go to state 4
     statement                      shift and go to state 5
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
 
 state 3
 
     (2) begindoc -> BEGIN . OB DOC CB NEWLINE
 
-    OB              shift and go to state 15
+    OB              shift and go to state 21
 
 
 state 4
@@ -124,29 +154,42 @@ state 4
     (1) totaldoc -> begindoc statements . enddoc
     (4) statements -> statements . statement
     (3) enddoc -> . END OB DOC CB
-    (6) statement -> . SECTION OB TEXT CB
-    (7) statement -> . SUBSECTION OB TEXT CB
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
     (8) statement -> . NEWLINE
     (9) statement -> . TEXT
-    (10) statement -> . BOLD OB TEXT CB
-    (11) statement -> . ITALICS OB TEXT CB
-    (14) statement -> . UNDERLINE OB TEXT CB
-    (15) statement -> . CAPTION OB TEXT CB
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
     (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    END             shift and go to state 18
+    END             shift and go to state 24
     SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 8
-    NEWLINE         shift and go to state 9
-    TEXT            shift and go to state 7
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
     UNDERLINE       shift and go to state 12
     CAPTION         shift and go to state 13
     DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
 
-    enddoc                         shift and go to state 16
-    statement                      shift and go to state 17
+    enddoc                         shift and go to state 22
+    statement                      shift and go to state 23
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
 
 state 5
 
@@ -162,39 +205,28 @@ state 5
     UNDERLINE       reduce using rule 5 (statements -> statement .)
     CAPTION         reduce using rule 5 (statements -> statement .)
     DOLLAR          reduce using rule 5 (statements -> statement .)
+    PAR             reduce using rule 5 (statements -> statement .)
+    ITEM            reduce using rule 5 (statements -> statement .)
+    INCLUDEGRAPHICS reduce using rule 5 (statements -> statement .)
+    BEGIN           reduce using rule 5 (statements -> statement .)
+    CB              reduce using rule 5 (statements -> statement .)
 
 
 state 6
 
-    (6) statement -> SECTION . OB TEXT CB
+    (6) statement -> SECTION . OB statements CB
 
-    OB              shift and go to state 19
+    OB              shift and go to state 25
 
 
 state 7
 
-    (9) statement -> TEXT .
+    (7) statement -> SUBSECTION . OB statements CB
 
-    END             reduce using rule 9 (statement -> TEXT .)
-    SECTION         reduce using rule 9 (statement -> TEXT .)
-    SUBSECTION      reduce using rule 9 (statement -> TEXT .)
-    NEWLINE         reduce using rule 9 (statement -> TEXT .)
-    TEXT            reduce using rule 9 (statement -> TEXT .)
-    BOLD            reduce using rule 9 (statement -> TEXT .)
-    ITALICS         reduce using rule 9 (statement -> TEXT .)
-    UNDERLINE       reduce using rule 9 (statement -> TEXT .)
-    CAPTION         reduce using rule 9 (statement -> TEXT .)
-    DOLLAR          reduce using rule 9 (statement -> TEXT .)
+    OB              shift and go to state 26
 
 
 state 8
-
-    (7) statement -> SUBSECTION . OB TEXT CB
-
-    OB              shift and go to state 20
-
-
-state 9
 
     (8) statement -> NEWLINE .
 
@@ -208,34 +240,60 @@ state 9
     UNDERLINE       reduce using rule 8 (statement -> NEWLINE .)
     CAPTION         reduce using rule 8 (statement -> NEWLINE .)
     DOLLAR          reduce using rule 8 (statement -> NEWLINE .)
+    PAR             reduce using rule 8 (statement -> NEWLINE .)
+    ITEM            reduce using rule 8 (statement -> NEWLINE .)
+    INCLUDEGRAPHICS reduce using rule 8 (statement -> NEWLINE .)
+    BEGIN           reduce using rule 8 (statement -> NEWLINE .)
+    CB              reduce using rule 8 (statement -> NEWLINE .)
+
+
+state 9
+
+    (9) statement -> TEXT .
+
+    END             reduce using rule 9 (statement -> TEXT .)
+    SECTION         reduce using rule 9 (statement -> TEXT .)
+    SUBSECTION      reduce using rule 9 (statement -> TEXT .)
+    NEWLINE         reduce using rule 9 (statement -> TEXT .)
+    TEXT            reduce using rule 9 (statement -> TEXT .)
+    BOLD            reduce using rule 9 (statement -> TEXT .)
+    ITALICS         reduce using rule 9 (statement -> TEXT .)
+    UNDERLINE       reduce using rule 9 (statement -> TEXT .)
+    CAPTION         reduce using rule 9 (statement -> TEXT .)
+    DOLLAR          reduce using rule 9 (statement -> TEXT .)
+    PAR             reduce using rule 9 (statement -> TEXT .)
+    ITEM            reduce using rule 9 (statement -> TEXT .)
+    INCLUDEGRAPHICS reduce using rule 9 (statement -> TEXT .)
+    BEGIN           reduce using rule 9 (statement -> TEXT .)
+    CB              reduce using rule 9 (statement -> TEXT .)
 
 
 state 10
 
-    (10) statement -> BOLD . OB TEXT CB
+    (10) statement -> BOLD . OB statements CB
 
-    OB              shift and go to state 21
+    OB              shift and go to state 27
 
 
 state 11
 
-    (11) statement -> ITALICS . OB TEXT CB
+    (11) statement -> ITALICS . OB statements CB
 
-    OB              shift and go to state 22
+    OB              shift and go to state 28
 
 
 state 12
 
-    (14) statement -> UNDERLINE . OB TEXT CB
+    (14) statement -> UNDERLINE . OB statements CB
 
-    OB              shift and go to state 23
+    OB              shift and go to state 29
 
 
 state 13
 
-    (15) statement -> CAPTION . OB TEXT CB
+    (15) statement -> CAPTION . OB statements CB
 
-    OB              shift and go to state 24
+    OB              shift and go to state 30
 
 
 state 14
@@ -243,30 +301,192 @@ state 14
     (16) statement -> DOLLAR . mathstats DOLLAR
     (17) mathstats -> . mathstats mathstat
     (18) mathstats -> . mathstat
-    (12) mathstat -> . FRAC OB TEXT CB OB TEXT CB
-    (13) mathstat -> . SQRT OB TEXT CB
+    (19) mathstats -> . TEXT
+    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
+    (13) mathstat -> . SQRT OB mathstats CB
+    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
 
-    FRAC            shift and go to state 27
-    SQRT            shift and go to state 28
+    TEXT            shift and go to state 33
+    FRAC            shift and go to state 34
+    SQRT            shift and go to state 35
+    INT             shift and go to state 36
+    SUM             shift and go to state 37
 
-    mathstats                      shift and go to state 25
-    mathstat                       shift and go to state 26
+    mathstats                      shift and go to state 31
+    mathstat                       shift and go to state 32
 
 state 15
 
-    (2) begindoc -> BEGIN OB . DOC CB NEWLINE
+    (20) statement -> PAR .
 
-    DOC             shift and go to state 29
+    END             reduce using rule 20 (statement -> PAR .)
+    SECTION         reduce using rule 20 (statement -> PAR .)
+    SUBSECTION      reduce using rule 20 (statement -> PAR .)
+    NEWLINE         reduce using rule 20 (statement -> PAR .)
+    TEXT            reduce using rule 20 (statement -> PAR .)
+    BOLD            reduce using rule 20 (statement -> PAR .)
+    ITALICS         reduce using rule 20 (statement -> PAR .)
+    UNDERLINE       reduce using rule 20 (statement -> PAR .)
+    CAPTION         reduce using rule 20 (statement -> PAR .)
+    DOLLAR          reduce using rule 20 (statement -> PAR .)
+    PAR             reduce using rule 20 (statement -> PAR .)
+    ITEM            reduce using rule 20 (statement -> PAR .)
+    INCLUDEGRAPHICS reduce using rule 20 (statement -> PAR .)
+    BEGIN           reduce using rule 20 (statement -> PAR .)
+    CB              reduce using rule 20 (statement -> PAR .)
 
 
 state 16
+
+    (25) statement -> beginenum . statements endenum
+    (4) statements -> . statements statement
+    (5) statements -> . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    beginenum                      shift and go to state 16
+    statements                     shift and go to state 38
+    statement                      shift and go to state 5
+    beginitemize                   shift and go to state 17
+
+state 17
+
+    (26) statement -> beginitemize . statements enditemize
+    (4) statements -> . statements statement
+    (5) statements -> . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    beginitemize                   shift and go to state 17
+    statements                     shift and go to state 39
+    statement                      shift and go to state 5
+    beginenum                      shift and go to state 16
+
+state 18
+
+    (27) statement -> ITEM . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    statement                      shift and go to state 40
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
+
+state 19
+
+    (28) statement -> INCLUDEGRAPHICS . OB TEXT CB
+
+    OB              shift and go to state 41
+
+
+state 20
+
+    (21) beginenum -> BEGIN . OB ENUMERATE CB
+    (22) beginitemize -> BEGIN . OB ITEMIZE CB
+
+    OB              shift and go to state 42
+
+
+state 21
+
+    (2) begindoc -> BEGIN OB . DOC CB NEWLINE
+
+    DOC             shift and go to state 43
+
+
+state 22
 
     (1) totaldoc -> begindoc statements enddoc .
 
     $end            reduce using rule 1 (totaldoc -> begindoc statements enddoc .)
 
 
-state 17
+state 23
 
     (4) statements -> statements statement .
 
@@ -280,150 +500,711 @@ state 17
     UNDERLINE       reduce using rule 4 (statements -> statements statement .)
     CAPTION         reduce using rule 4 (statements -> statements statement .)
     DOLLAR          reduce using rule 4 (statements -> statements statement .)
-
-
-state 18
-
-    (3) enddoc -> END . OB DOC CB
-
-    OB              shift and go to state 30
-
-
-state 19
-
-    (6) statement -> SECTION OB . TEXT CB
-
-    TEXT            shift and go to state 31
-
-
-state 20
-
-    (7) statement -> SUBSECTION OB . TEXT CB
-
-    TEXT            shift and go to state 32
-
-
-state 21
-
-    (10) statement -> BOLD OB . TEXT CB
-
-    TEXT            shift and go to state 33
-
-
-state 22
-
-    (11) statement -> ITALICS OB . TEXT CB
-
-    TEXT            shift and go to state 34
-
-
-state 23
-
-    (14) statement -> UNDERLINE OB . TEXT CB
-
-    TEXT            shift and go to state 35
+    PAR             reduce using rule 4 (statements -> statements statement .)
+    ITEM            reduce using rule 4 (statements -> statements statement .)
+    INCLUDEGRAPHICS reduce using rule 4 (statements -> statements statement .)
+    BEGIN           reduce using rule 4 (statements -> statements statement .)
+    CB              reduce using rule 4 (statements -> statements statement .)
 
 
 state 24
 
-    (15) statement -> CAPTION OB . TEXT CB
+    (3) enddoc -> END . OB DOC CB
 
-    TEXT            shift and go to state 36
+    OB              shift and go to state 44
 
 
 state 25
 
-    (16) statement -> DOLLAR mathstats . DOLLAR
-    (17) mathstats -> mathstats . mathstat
-    (12) mathstat -> . FRAC OB TEXT CB OB TEXT CB
-    (13) mathstat -> . SQRT OB TEXT CB
+    (6) statement -> SECTION OB . statements CB
+    (4) statements -> . statements statement
+    (5) statements -> . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    DOLLAR          shift and go to state 37
-    FRAC            shift and go to state 27
-    SQRT            shift and go to state 28
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
 
-    mathstat                       shift and go to state 38
+    statements                     shift and go to state 45
+    statement                      shift and go to state 5
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
 
 state 26
+
+    (7) statement -> SUBSECTION OB . statements CB
+    (4) statements -> . statements statement
+    (5) statements -> . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    statements                     shift and go to state 46
+    statement                      shift and go to state 5
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
+
+state 27
+
+    (10) statement -> BOLD OB . statements CB
+    (4) statements -> . statements statement
+    (5) statements -> . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    statements                     shift and go to state 47
+    statement                      shift and go to state 5
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
+
+state 28
+
+    (11) statement -> ITALICS OB . statements CB
+    (4) statements -> . statements statement
+    (5) statements -> . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    statements                     shift and go to state 48
+    statement                      shift and go to state 5
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
+
+state 29
+
+    (14) statement -> UNDERLINE OB . statements CB
+    (4) statements -> . statements statement
+    (5) statements -> . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    statements                     shift and go to state 49
+    statement                      shift and go to state 5
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
+
+state 30
+
+    (15) statement -> CAPTION OB . statements CB
+    (4) statements -> . statements statement
+    (5) statements -> . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    statements                     shift and go to state 50
+    statement                      shift and go to state 5
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
+
+state 31
+
+    (16) statement -> DOLLAR mathstats . DOLLAR
+    (17) mathstats -> mathstats . mathstat
+    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
+    (13) mathstat -> . SQRT OB mathstats CB
+    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+
+    DOLLAR          shift and go to state 51
+    FRAC            shift and go to state 34
+    SQRT            shift and go to state 35
+    INT             shift and go to state 36
+    SUM             shift and go to state 37
+
+    mathstat                       shift and go to state 52
+
+state 32
 
     (18) mathstats -> mathstat .
 
     DOLLAR          reduce using rule 18 (mathstats -> mathstat .)
     FRAC            reduce using rule 18 (mathstats -> mathstat .)
     SQRT            reduce using rule 18 (mathstats -> mathstat .)
-
-
-state 27
-
-    (12) mathstat -> FRAC . OB TEXT CB OB TEXT CB
-
-    OB              shift and go to state 39
-
-
-state 28
-
-    (13) mathstat -> SQRT . OB TEXT CB
-
-    OB              shift and go to state 40
-
-
-state 29
-
-    (2) begindoc -> BEGIN OB DOC . CB NEWLINE
-
-    CB              shift and go to state 41
-
-
-state 30
-
-    (3) enddoc -> END OB . DOC CB
-
-    DOC             shift and go to state 42
-
-
-state 31
-
-    (6) statement -> SECTION OB TEXT . CB
-
-    CB              shift and go to state 43
-
-
-state 32
-
-    (7) statement -> SUBSECTION OB TEXT . CB
-
-    CB              shift and go to state 44
+    INT             reduce using rule 18 (mathstats -> mathstat .)
+    SUM             reduce using rule 18 (mathstats -> mathstat .)
+    CB              reduce using rule 18 (mathstats -> mathstat .)
 
 
 state 33
 
-    (10) statement -> BOLD OB TEXT . CB
+    (19) mathstats -> TEXT .
 
-    CB              shift and go to state 45
+    DOLLAR          reduce using rule 19 (mathstats -> TEXT .)
+    FRAC            reduce using rule 19 (mathstats -> TEXT .)
+    SQRT            reduce using rule 19 (mathstats -> TEXT .)
+    INT             reduce using rule 19 (mathstats -> TEXT .)
+    SUM             reduce using rule 19 (mathstats -> TEXT .)
+    CB              reduce using rule 19 (mathstats -> TEXT .)
 
 
 state 34
 
-    (11) statement -> ITALICS OB TEXT . CB
+    (12) mathstat -> FRAC . OB mathstats CB OB mathstats CB
 
-    CB              shift and go to state 46
+    OB              shift and go to state 53
 
 
 state 35
 
-    (14) statement -> UNDERLINE OB TEXT . CB
+    (13) mathstat -> SQRT . OB mathstats CB
 
-    CB              shift and go to state 47
+    OB              shift and go to state 54
 
 
 state 36
 
-    (15) statement -> CAPTION OB TEXT . CB
+    (29) mathstat -> INT . UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
 
-    CB              shift and go to state 48
+    UNDERSCORE      shift and go to state 55
 
 
 state 37
+
+    (30) mathstat -> SUM . UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+
+    UNDERSCORE      shift and go to state 56
+
+
+state 38
+
+    (25) statement -> beginenum statements . endenum
+    (4) statements -> statements . statement
+    (23) endenum -> . END OB ENUMERATE CB
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    END             shift and go to state 58
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    beginenum                      shift and go to state 16
+    endenum                        shift and go to state 57
+    statement                      shift and go to state 23
+    beginitemize                   shift and go to state 17
+
+state 39
+
+    (26) statement -> beginitemize statements . enditemize
+    (4) statements -> statements . statement
+    (24) enditemize -> . END OB ITEMIZE CB
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    END             shift and go to state 60
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    beginitemize                   shift and go to state 17
+    enditemize                     shift and go to state 59
+    statement                      shift and go to state 23
+    beginenum                      shift and go to state 16
+
+state 40
+
+    (27) statement -> ITEM statement .
+
+    END             reduce using rule 27 (statement -> ITEM statement .)
+    SECTION         reduce using rule 27 (statement -> ITEM statement .)
+    SUBSECTION      reduce using rule 27 (statement -> ITEM statement .)
+    NEWLINE         reduce using rule 27 (statement -> ITEM statement .)
+    TEXT            reduce using rule 27 (statement -> ITEM statement .)
+    BOLD            reduce using rule 27 (statement -> ITEM statement .)
+    ITALICS         reduce using rule 27 (statement -> ITEM statement .)
+    UNDERLINE       reduce using rule 27 (statement -> ITEM statement .)
+    CAPTION         reduce using rule 27 (statement -> ITEM statement .)
+    DOLLAR          reduce using rule 27 (statement -> ITEM statement .)
+    PAR             reduce using rule 27 (statement -> ITEM statement .)
+    ITEM            reduce using rule 27 (statement -> ITEM statement .)
+    INCLUDEGRAPHICS reduce using rule 27 (statement -> ITEM statement .)
+    BEGIN           reduce using rule 27 (statement -> ITEM statement .)
+    CB              reduce using rule 27 (statement -> ITEM statement .)
+
+
+state 41
+
+    (28) statement -> INCLUDEGRAPHICS OB . TEXT CB
+
+    TEXT            shift and go to state 61
+
+
+state 42
+
+    (21) beginenum -> BEGIN OB . ENUMERATE CB
+    (22) beginitemize -> BEGIN OB . ITEMIZE CB
+
+    ENUMERATE       shift and go to state 62
+    ITEMIZE         shift and go to state 63
+
+
+state 43
+
+    (2) begindoc -> BEGIN OB DOC . CB NEWLINE
+
+    CB              shift and go to state 64
+
+
+state 44
+
+    (3) enddoc -> END OB . DOC CB
+
+    DOC             shift and go to state 65
+
+
+state 45
+
+    (6) statement -> SECTION OB statements . CB
+    (4) statements -> statements . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    CB              shift and go to state 66
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    statement                      shift and go to state 23
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
+
+state 46
+
+    (7) statement -> SUBSECTION OB statements . CB
+    (4) statements -> statements . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    CB              shift and go to state 67
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    statement                      shift and go to state 23
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
+
+state 47
+
+    (10) statement -> BOLD OB statements . CB
+    (4) statements -> statements . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    CB              shift and go to state 68
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    statement                      shift and go to state 23
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
+
+state 48
+
+    (11) statement -> ITALICS OB statements . CB
+    (4) statements -> statements . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    CB              shift and go to state 69
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    statement                      shift and go to state 23
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
+
+state 49
+
+    (14) statement -> UNDERLINE OB statements . CB
+    (4) statements -> statements . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    CB              shift and go to state 70
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    statement                      shift and go to state 23
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
+
+state 50
+
+    (15) statement -> CAPTION OB statements . CB
+    (4) statements -> statements . statement
+    (6) statement -> . SECTION OB statements CB
+    (7) statement -> . SUBSECTION OB statements CB
+    (8) statement -> . NEWLINE
+    (9) statement -> . TEXT
+    (10) statement -> . BOLD OB statements CB
+    (11) statement -> . ITALICS OB statements CB
+    (14) statement -> . UNDERLINE OB statements CB
+    (15) statement -> . CAPTION OB statements CB
+    (16) statement -> . DOLLAR mathstats DOLLAR
+    (20) statement -> . PAR
+    (25) statement -> . beginenum statements endenum
+    (26) statement -> . beginitemize statements enditemize
+    (27) statement -> . ITEM statement
+    (28) statement -> . INCLUDEGRAPHICS OB TEXT CB
+    (21) beginenum -> . BEGIN OB ENUMERATE CB
+    (22) beginitemize -> . BEGIN OB ITEMIZE CB
+
+    CB              shift and go to state 71
+    SECTION         shift and go to state 6
+    SUBSECTION      shift and go to state 7
+    NEWLINE         shift and go to state 8
+    TEXT            shift and go to state 9
+    BOLD            shift and go to state 10
+    ITALICS         shift and go to state 11
+    UNDERLINE       shift and go to state 12
+    CAPTION         shift and go to state 13
+    DOLLAR          shift and go to state 14
+    PAR             shift and go to state 15
+    ITEM            shift and go to state 18
+    INCLUDEGRAPHICS shift and go to state 19
+    BEGIN           shift and go to state 20
+
+    statement                      shift and go to state 23
+    beginenum                      shift and go to state 16
+    beginitemize                   shift and go to state 17
+
+state 51
 
     (16) statement -> DOLLAR mathstats DOLLAR .
 
@@ -437,156 +1218,418 @@ state 37
     UNDERLINE       reduce using rule 16 (statement -> DOLLAR mathstats DOLLAR .)
     CAPTION         reduce using rule 16 (statement -> DOLLAR mathstats DOLLAR .)
     DOLLAR          reduce using rule 16 (statement -> DOLLAR mathstats DOLLAR .)
+    PAR             reduce using rule 16 (statement -> DOLLAR mathstats DOLLAR .)
+    ITEM            reduce using rule 16 (statement -> DOLLAR mathstats DOLLAR .)
+    INCLUDEGRAPHICS reduce using rule 16 (statement -> DOLLAR mathstats DOLLAR .)
+    BEGIN           reduce using rule 16 (statement -> DOLLAR mathstats DOLLAR .)
+    CB              reduce using rule 16 (statement -> DOLLAR mathstats DOLLAR .)
 
 
-state 38
+state 52
 
     (17) mathstats -> mathstats mathstat .
 
     DOLLAR          reduce using rule 17 (mathstats -> mathstats mathstat .)
     FRAC            reduce using rule 17 (mathstats -> mathstats mathstat .)
     SQRT            reduce using rule 17 (mathstats -> mathstats mathstat .)
+    INT             reduce using rule 17 (mathstats -> mathstats mathstat .)
+    SUM             reduce using rule 17 (mathstats -> mathstats mathstat .)
+    CB              reduce using rule 17 (mathstats -> mathstats mathstat .)
 
 
-state 39
+state 53
 
-    (12) mathstat -> FRAC OB . TEXT CB OB TEXT CB
+    (12) mathstat -> FRAC OB . mathstats CB OB mathstats CB
+    (17) mathstats -> . mathstats mathstat
+    (18) mathstats -> . mathstat
+    (19) mathstats -> . TEXT
+    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
+    (13) mathstat -> . SQRT OB mathstats CB
+    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
 
-    TEXT            shift and go to state 49
+    TEXT            shift and go to state 33
+    FRAC            shift and go to state 34
+    SQRT            shift and go to state 35
+    INT             shift and go to state 36
+    SUM             shift and go to state 37
+
+    mathstats                      shift and go to state 72
+    mathstat                       shift and go to state 32
+
+state 54
+
+    (13) mathstat -> SQRT OB . mathstats CB
+    (17) mathstats -> . mathstats mathstat
+    (18) mathstats -> . mathstat
+    (19) mathstats -> . TEXT
+    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
+    (13) mathstat -> . SQRT OB mathstats CB
+    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+
+    TEXT            shift and go to state 33
+    FRAC            shift and go to state 34
+    SQRT            shift and go to state 35
+    INT             shift and go to state 36
+    SUM             shift and go to state 37
+
+    mathstats                      shift and go to state 73
+    mathstat                       shift and go to state 32
+
+state 55
+
+    (29) mathstat -> INT UNDERSCORE . OB TEXT CB CARET OB TEXT CB mathstat
+
+    OB              shift and go to state 74
 
 
-state 40
+state 56
 
-    (13) mathstat -> SQRT OB . TEXT CB
+    (30) mathstat -> SUM UNDERSCORE . OB TEXT CB CARET OB TEXT CB mathstat
 
-    TEXT            shift and go to state 50
+    OB              shift and go to state 75
 
 
-state 41
+state 57
+
+    (25) statement -> beginenum statements endenum .
+
+    END             reduce using rule 25 (statement -> beginenum statements endenum .)
+    SECTION         reduce using rule 25 (statement -> beginenum statements endenum .)
+    SUBSECTION      reduce using rule 25 (statement -> beginenum statements endenum .)
+    NEWLINE         reduce using rule 25 (statement -> beginenum statements endenum .)
+    TEXT            reduce using rule 25 (statement -> beginenum statements endenum .)
+    BOLD            reduce using rule 25 (statement -> beginenum statements endenum .)
+    ITALICS         reduce using rule 25 (statement -> beginenum statements endenum .)
+    UNDERLINE       reduce using rule 25 (statement -> beginenum statements endenum .)
+    CAPTION         reduce using rule 25 (statement -> beginenum statements endenum .)
+    DOLLAR          reduce using rule 25 (statement -> beginenum statements endenum .)
+    PAR             reduce using rule 25 (statement -> beginenum statements endenum .)
+    ITEM            reduce using rule 25 (statement -> beginenum statements endenum .)
+    INCLUDEGRAPHICS reduce using rule 25 (statement -> beginenum statements endenum .)
+    BEGIN           reduce using rule 25 (statement -> beginenum statements endenum .)
+    CB              reduce using rule 25 (statement -> beginenum statements endenum .)
+
+
+state 58
+
+    (23) endenum -> END . OB ENUMERATE CB
+
+    OB              shift and go to state 76
+
+
+state 59
+
+    (26) statement -> beginitemize statements enditemize .
+
+    END             reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    SECTION         reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    SUBSECTION      reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    NEWLINE         reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    TEXT            reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    BOLD            reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    ITALICS         reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    UNDERLINE       reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    CAPTION         reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    DOLLAR          reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    PAR             reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    ITEM            reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    INCLUDEGRAPHICS reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    BEGIN           reduce using rule 26 (statement -> beginitemize statements enditemize .)
+    CB              reduce using rule 26 (statement -> beginitemize statements enditemize .)
+
+
+state 60
+
+    (24) enditemize -> END . OB ITEMIZE CB
+
+    OB              shift and go to state 77
+
+
+state 61
+
+    (28) statement -> INCLUDEGRAPHICS OB TEXT . CB
+
+    CB              shift and go to state 78
+
+
+state 62
+
+    (21) beginenum -> BEGIN OB ENUMERATE . CB
+
+    CB              shift and go to state 79
+
+
+state 63
+
+    (22) beginitemize -> BEGIN OB ITEMIZE . CB
+
+    CB              shift and go to state 80
+
+
+state 64
 
     (2) begindoc -> BEGIN OB DOC CB . NEWLINE
 
-    NEWLINE         shift and go to state 51
+    NEWLINE         shift and go to state 81
 
 
-state 42
+state 65
 
     (3) enddoc -> END OB DOC . CB
 
-    CB              shift and go to state 52
+    CB              shift and go to state 82
 
 
-state 43
+state 66
 
-    (6) statement -> SECTION OB TEXT CB .
+    (6) statement -> SECTION OB statements CB .
 
-    END             reduce using rule 6 (statement -> SECTION OB TEXT CB .)
-    SECTION         reduce using rule 6 (statement -> SECTION OB TEXT CB .)
-    SUBSECTION      reduce using rule 6 (statement -> SECTION OB TEXT CB .)
-    NEWLINE         reduce using rule 6 (statement -> SECTION OB TEXT CB .)
-    TEXT            reduce using rule 6 (statement -> SECTION OB TEXT CB .)
-    BOLD            reduce using rule 6 (statement -> SECTION OB TEXT CB .)
-    ITALICS         reduce using rule 6 (statement -> SECTION OB TEXT CB .)
-    UNDERLINE       reduce using rule 6 (statement -> SECTION OB TEXT CB .)
-    CAPTION         reduce using rule 6 (statement -> SECTION OB TEXT CB .)
-    DOLLAR          reduce using rule 6 (statement -> SECTION OB TEXT CB .)
-
-
-state 44
-
-    (7) statement -> SUBSECTION OB TEXT CB .
-
-    END             reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
-    SECTION         reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
-    SUBSECTION      reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
-    NEWLINE         reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
-    TEXT            reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
-    BOLD            reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
-    ITALICS         reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
-    UNDERLINE       reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
-    CAPTION         reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
-    DOLLAR          reduce using rule 7 (statement -> SUBSECTION OB TEXT CB .)
+    END             reduce using rule 6 (statement -> SECTION OB statements CB .)
+    SECTION         reduce using rule 6 (statement -> SECTION OB statements CB .)
+    SUBSECTION      reduce using rule 6 (statement -> SECTION OB statements CB .)
+    NEWLINE         reduce using rule 6 (statement -> SECTION OB statements CB .)
+    TEXT            reduce using rule 6 (statement -> SECTION OB statements CB .)
+    BOLD            reduce using rule 6 (statement -> SECTION OB statements CB .)
+    ITALICS         reduce using rule 6 (statement -> SECTION OB statements CB .)
+    UNDERLINE       reduce using rule 6 (statement -> SECTION OB statements CB .)
+    CAPTION         reduce using rule 6 (statement -> SECTION OB statements CB .)
+    DOLLAR          reduce using rule 6 (statement -> SECTION OB statements CB .)
+    PAR             reduce using rule 6 (statement -> SECTION OB statements CB .)
+    ITEM            reduce using rule 6 (statement -> SECTION OB statements CB .)
+    INCLUDEGRAPHICS reduce using rule 6 (statement -> SECTION OB statements CB .)
+    BEGIN           reduce using rule 6 (statement -> SECTION OB statements CB .)
+    CB              reduce using rule 6 (statement -> SECTION OB statements CB .)
 
 
-state 45
+state 67
 
-    (10) statement -> BOLD OB TEXT CB .
+    (7) statement -> SUBSECTION OB statements CB .
 
-    END             reduce using rule 10 (statement -> BOLD OB TEXT CB .)
-    SECTION         reduce using rule 10 (statement -> BOLD OB TEXT CB .)
-    SUBSECTION      reduce using rule 10 (statement -> BOLD OB TEXT CB .)
-    NEWLINE         reduce using rule 10 (statement -> BOLD OB TEXT CB .)
-    TEXT            reduce using rule 10 (statement -> BOLD OB TEXT CB .)
-    BOLD            reduce using rule 10 (statement -> BOLD OB TEXT CB .)
-    ITALICS         reduce using rule 10 (statement -> BOLD OB TEXT CB .)
-    UNDERLINE       reduce using rule 10 (statement -> BOLD OB TEXT CB .)
-    CAPTION         reduce using rule 10 (statement -> BOLD OB TEXT CB .)
-    DOLLAR          reduce using rule 10 (statement -> BOLD OB TEXT CB .)
-
-
-state 46
-
-    (11) statement -> ITALICS OB TEXT CB .
-
-    END             reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
-    SECTION         reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
-    SUBSECTION      reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
-    NEWLINE         reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
-    TEXT            reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
-    BOLD            reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
-    ITALICS         reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
-    UNDERLINE       reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
-    CAPTION         reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
-    DOLLAR          reduce using rule 11 (statement -> ITALICS OB TEXT CB .)
+    END             reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    SECTION         reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    SUBSECTION      reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    NEWLINE         reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    TEXT            reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    BOLD            reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    ITALICS         reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    UNDERLINE       reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    CAPTION         reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    DOLLAR          reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    PAR             reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    ITEM            reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    INCLUDEGRAPHICS reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    BEGIN           reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
+    CB              reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
 
 
-state 47
+state 68
 
-    (14) statement -> UNDERLINE OB TEXT CB .
+    (10) statement -> BOLD OB statements CB .
 
-    END             reduce using rule 14 (statement -> UNDERLINE OB TEXT CB .)
-    SECTION         reduce using rule 14 (statement -> UNDERLINE OB TEXT CB .)
-    SUBSECTION      reduce using rule 14 (statement -> UNDERLINE OB TEXT CB .)
-    NEWLINE         reduce using rule 14 (statement -> UNDERLINE OB TEXT CB .)
-    TEXT            reduce using rule 14 (statement -> UNDERLINE OB TEXT CB .)
-    BOLD            reduce using rule 14 (statement -> UNDERLINE OB TEXT CB .)
-    ITALICS         reduce using rule 14 (statement -> UNDERLINE OB TEXT CB .)
-    UNDERLINE       reduce using rule 14 (statement -> UNDERLINE OB TEXT CB .)
-    CAPTION         reduce using rule 14 (statement -> UNDERLINE OB TEXT CB .)
-    DOLLAR          reduce using rule 14 (statement -> UNDERLINE OB TEXT CB .)
-
-
-state 48
-
-    (15) statement -> CAPTION OB TEXT CB .
-
-    END             reduce using rule 15 (statement -> CAPTION OB TEXT CB .)
-    SECTION         reduce using rule 15 (statement -> CAPTION OB TEXT CB .)
-    SUBSECTION      reduce using rule 15 (statement -> CAPTION OB TEXT CB .)
-    NEWLINE         reduce using rule 15 (statement -> CAPTION OB TEXT CB .)
-    TEXT            reduce using rule 15 (statement -> CAPTION OB TEXT CB .)
-    BOLD            reduce using rule 15 (statement -> CAPTION OB TEXT CB .)
-    ITALICS         reduce using rule 15 (statement -> CAPTION OB TEXT CB .)
-    UNDERLINE       reduce using rule 15 (statement -> CAPTION OB TEXT CB .)
-    CAPTION         reduce using rule 15 (statement -> CAPTION OB TEXT CB .)
-    DOLLAR          reduce using rule 15 (statement -> CAPTION OB TEXT CB .)
+    END             reduce using rule 10 (statement -> BOLD OB statements CB .)
+    SECTION         reduce using rule 10 (statement -> BOLD OB statements CB .)
+    SUBSECTION      reduce using rule 10 (statement -> BOLD OB statements CB .)
+    NEWLINE         reduce using rule 10 (statement -> BOLD OB statements CB .)
+    TEXT            reduce using rule 10 (statement -> BOLD OB statements CB .)
+    BOLD            reduce using rule 10 (statement -> BOLD OB statements CB .)
+    ITALICS         reduce using rule 10 (statement -> BOLD OB statements CB .)
+    UNDERLINE       reduce using rule 10 (statement -> BOLD OB statements CB .)
+    CAPTION         reduce using rule 10 (statement -> BOLD OB statements CB .)
+    DOLLAR          reduce using rule 10 (statement -> BOLD OB statements CB .)
+    PAR             reduce using rule 10 (statement -> BOLD OB statements CB .)
+    ITEM            reduce using rule 10 (statement -> BOLD OB statements CB .)
+    INCLUDEGRAPHICS reduce using rule 10 (statement -> BOLD OB statements CB .)
+    BEGIN           reduce using rule 10 (statement -> BOLD OB statements CB .)
+    CB              reduce using rule 10 (statement -> BOLD OB statements CB .)
 
 
-state 49
+state 69
 
-    (12) mathstat -> FRAC OB TEXT . CB OB TEXT CB
+    (11) statement -> ITALICS OB statements CB .
 
-    CB              shift and go to state 53
+    END             reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    SECTION         reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    SUBSECTION      reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    NEWLINE         reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    TEXT            reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    BOLD            reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    ITALICS         reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    UNDERLINE       reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    CAPTION         reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    DOLLAR          reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    PAR             reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    ITEM            reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    INCLUDEGRAPHICS reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    BEGIN           reduce using rule 11 (statement -> ITALICS OB statements CB .)
+    CB              reduce using rule 11 (statement -> ITALICS OB statements CB .)
 
 
-state 50
+state 70
 
-    (13) mathstat -> SQRT OB TEXT . CB
+    (14) statement -> UNDERLINE OB statements CB .
 
-    CB              shift and go to state 54
+    END             reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    SECTION         reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    SUBSECTION      reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    NEWLINE         reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    TEXT            reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    BOLD            reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    ITALICS         reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    UNDERLINE       reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    CAPTION         reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    DOLLAR          reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    PAR             reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    ITEM            reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    INCLUDEGRAPHICS reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    BEGIN           reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
+    CB              reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
 
 
-state 51
+state 71
+
+    (15) statement -> CAPTION OB statements CB .
+
+    END             reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    SECTION         reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    SUBSECTION      reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    NEWLINE         reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    TEXT            reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    BOLD            reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    ITALICS         reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    UNDERLINE       reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    CAPTION         reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    DOLLAR          reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    PAR             reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    ITEM            reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    INCLUDEGRAPHICS reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    BEGIN           reduce using rule 15 (statement -> CAPTION OB statements CB .)
+    CB              reduce using rule 15 (statement -> CAPTION OB statements CB .)
+
+
+state 72
+
+    (12) mathstat -> FRAC OB mathstats . CB OB mathstats CB
+    (17) mathstats -> mathstats . mathstat
+    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
+    (13) mathstat -> . SQRT OB mathstats CB
+    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+
+    CB              shift and go to state 83
+    FRAC            shift and go to state 34
+    SQRT            shift and go to state 35
+    INT             shift and go to state 36
+    SUM             shift and go to state 37
+
+    mathstat                       shift and go to state 52
+
+state 73
+
+    (13) mathstat -> SQRT OB mathstats . CB
+    (17) mathstats -> mathstats . mathstat
+    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
+    (13) mathstat -> . SQRT OB mathstats CB
+    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+
+    CB              shift and go to state 84
+    FRAC            shift and go to state 34
+    SQRT            shift and go to state 35
+    INT             shift and go to state 36
+    SUM             shift and go to state 37
+
+    mathstat                       shift and go to state 52
+
+state 74
+
+    (29) mathstat -> INT UNDERSCORE OB . TEXT CB CARET OB TEXT CB mathstat
+
+    TEXT            shift and go to state 85
+
+
+state 75
+
+    (30) mathstat -> SUM UNDERSCORE OB . TEXT CB CARET OB TEXT CB mathstat
+
+    TEXT            shift and go to state 86
+
+
+state 76
+
+    (23) endenum -> END OB . ENUMERATE CB
+
+    ENUMERATE       shift and go to state 87
+
+
+state 77
+
+    (24) enditemize -> END OB . ITEMIZE CB
+
+    ITEMIZE         shift and go to state 88
+
+
+state 78
+
+    (28) statement -> INCLUDEGRAPHICS OB TEXT CB .
+
+    END             reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    SECTION         reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    SUBSECTION      reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    NEWLINE         reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    TEXT            reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    BOLD            reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    ITALICS         reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    UNDERLINE       reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    CAPTION         reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    DOLLAR          reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    PAR             reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    ITEM            reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    INCLUDEGRAPHICS reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    BEGIN           reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+    CB              reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
+
+
+state 79
+
+    (21) beginenum -> BEGIN OB ENUMERATE CB .
+
+    SECTION         reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
+    SUBSECTION      reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
+    NEWLINE         reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
+    TEXT            reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
+    BOLD            reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
+    ITALICS         reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
+    UNDERLINE       reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
+    CAPTION         reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
+    DOLLAR          reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
+    PAR             reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
+    ITEM            reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
+    INCLUDEGRAPHICS reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
+    BEGIN           reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
+
+
+state 80
+
+    (22) beginitemize -> BEGIN OB ITEMIZE CB .
+
+    SECTION         reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
+    SUBSECTION      reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
+    NEWLINE         reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
+    TEXT            reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
+    BOLD            reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
+    ITALICS         reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
+    UNDERLINE       reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
+    CAPTION         reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
+    DOLLAR          reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
+    PAR             reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
+    ITEM            reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
+    INCLUDEGRAPHICS reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
+    BEGIN           reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
+
+
+state 81
 
     (2) begindoc -> BEGIN OB DOC CB NEWLINE .
 
@@ -599,50 +1642,263 @@ state 51
     UNDERLINE       reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
     CAPTION         reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
     DOLLAR          reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
+    PAR             reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
+    ITEM            reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
+    INCLUDEGRAPHICS reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
+    BEGIN           reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
 
 
-state 52
+state 82
 
     (3) enddoc -> END OB DOC CB .
 
     $end            reduce using rule 3 (enddoc -> END OB DOC CB .)
 
 
-state 53
+state 83
 
-    (12) mathstat -> FRAC OB TEXT CB . OB TEXT CB
+    (12) mathstat -> FRAC OB mathstats CB . OB mathstats CB
 
-    OB              shift and go to state 55
-
-
-state 54
-
-    (13) mathstat -> SQRT OB TEXT CB .
-
-    DOLLAR          reduce using rule 13 (mathstat -> SQRT OB TEXT CB .)
-    FRAC            reduce using rule 13 (mathstat -> SQRT OB TEXT CB .)
-    SQRT            reduce using rule 13 (mathstat -> SQRT OB TEXT CB .)
+    OB              shift and go to state 89
 
 
-state 55
+state 84
 
-    (12) mathstat -> FRAC OB TEXT CB OB . TEXT CB
+    (13) mathstat -> SQRT OB mathstats CB .
 
-    TEXT            shift and go to state 56
-
-
-state 56
-
-    (12) mathstat -> FRAC OB TEXT CB OB TEXT . CB
-
-    CB              shift and go to state 57
+    DOLLAR          reduce using rule 13 (mathstat -> SQRT OB mathstats CB .)
+    FRAC            reduce using rule 13 (mathstat -> SQRT OB mathstats CB .)
+    SQRT            reduce using rule 13 (mathstat -> SQRT OB mathstats CB .)
+    INT             reduce using rule 13 (mathstat -> SQRT OB mathstats CB .)
+    SUM             reduce using rule 13 (mathstat -> SQRT OB mathstats CB .)
+    CB              reduce using rule 13 (mathstat -> SQRT OB mathstats CB .)
 
 
-state 57
+state 85
 
-    (12) mathstat -> FRAC OB TEXT CB OB TEXT CB .
+    (29) mathstat -> INT UNDERSCORE OB TEXT . CB CARET OB TEXT CB mathstat
 
-    DOLLAR          reduce using rule 12 (mathstat -> FRAC OB TEXT CB OB TEXT CB .)
-    FRAC            reduce using rule 12 (mathstat -> FRAC OB TEXT CB OB TEXT CB .)
-    SQRT            reduce using rule 12 (mathstat -> FRAC OB TEXT CB OB TEXT CB .)
+    CB              shift and go to state 90
+
+
+state 86
+
+    (30) mathstat -> SUM UNDERSCORE OB TEXT . CB CARET OB TEXT CB mathstat
+
+    CB              shift and go to state 91
+
+
+state 87
+
+    (23) endenum -> END OB ENUMERATE . CB
+
+    CB              shift and go to state 92
+
+
+state 88
+
+    (24) enditemize -> END OB ITEMIZE . CB
+
+    CB              shift and go to state 93
+
+
+state 89
+
+    (12) mathstat -> FRAC OB mathstats CB OB . mathstats CB
+    (17) mathstats -> . mathstats mathstat
+    (18) mathstats -> . mathstat
+    (19) mathstats -> . TEXT
+    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
+    (13) mathstat -> . SQRT OB mathstats CB
+    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+
+    TEXT            shift and go to state 33
+    FRAC            shift and go to state 34
+    SQRT            shift and go to state 35
+    INT             shift and go to state 36
+    SUM             shift and go to state 37
+
+    mathstats                      shift and go to state 94
+    mathstat                       shift and go to state 32
+
+state 90
+
+    (29) mathstat -> INT UNDERSCORE OB TEXT CB . CARET OB TEXT CB mathstat
+
+    CARET           shift and go to state 95
+
+
+state 91
+
+    (30) mathstat -> SUM UNDERSCORE OB TEXT CB . CARET OB TEXT CB mathstat
+
+    CARET           shift and go to state 96
+
+
+state 92
+
+    (23) endenum -> END OB ENUMERATE CB .
+
+    END             reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    SECTION         reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    SUBSECTION      reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    NEWLINE         reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    TEXT            reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    BOLD            reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    ITALICS         reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    UNDERLINE       reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    CAPTION         reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    DOLLAR          reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    PAR             reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    ITEM            reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    INCLUDEGRAPHICS reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    BEGIN           reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+    CB              reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
+
+
+state 93
+
+    (24) enditemize -> END OB ITEMIZE CB .
+
+    END             reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    SECTION         reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    SUBSECTION      reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    NEWLINE         reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    TEXT            reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    BOLD            reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    ITALICS         reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    UNDERLINE       reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    CAPTION         reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    DOLLAR          reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    PAR             reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    ITEM            reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    INCLUDEGRAPHICS reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    BEGIN           reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+    CB              reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
+
+
+state 94
+
+    (12) mathstat -> FRAC OB mathstats CB OB mathstats . CB
+    (17) mathstats -> mathstats . mathstat
+    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
+    (13) mathstat -> . SQRT OB mathstats CB
+    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+
+    CB              shift and go to state 97
+    FRAC            shift and go to state 34
+    SQRT            shift and go to state 35
+    INT             shift and go to state 36
+    SUM             shift and go to state 37
+
+    mathstat                       shift and go to state 52
+
+state 95
+
+    (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET . OB TEXT CB mathstat
+
+    OB              shift and go to state 98
+
+
+state 96
+
+    (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET . OB TEXT CB mathstat
+
+    OB              shift and go to state 99
+
+
+state 97
+
+    (12) mathstat -> FRAC OB mathstats CB OB mathstats CB .
+
+    DOLLAR          reduce using rule 12 (mathstat -> FRAC OB mathstats CB OB mathstats CB .)
+    FRAC            reduce using rule 12 (mathstat -> FRAC OB mathstats CB OB mathstats CB .)
+    SQRT            reduce using rule 12 (mathstat -> FRAC OB mathstats CB OB mathstats CB .)
+    INT             reduce using rule 12 (mathstat -> FRAC OB mathstats CB OB mathstats CB .)
+    SUM             reduce using rule 12 (mathstat -> FRAC OB mathstats CB OB mathstats CB .)
+    CB              reduce using rule 12 (mathstat -> FRAC OB mathstats CB OB mathstats CB .)
+
+
+state 98
+
+    (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET OB . TEXT CB mathstat
+
+    TEXT            shift and go to state 100
+
+
+state 99
+
+    (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB . TEXT CB mathstat
+
+    TEXT            shift and go to state 101
+
+
+state 100
+
+    (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT . CB mathstat
+
+    CB              shift and go to state 102
+
+
+state 101
+
+    (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT . CB mathstat
+
+    CB              shift and go to state 103
+
+
+state 102
+
+    (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB . mathstat
+    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
+    (13) mathstat -> . SQRT OB mathstats CB
+    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+
+    FRAC            shift and go to state 34
+    SQRT            shift and go to state 35
+    INT             shift and go to state 36
+    SUM             shift and go to state 37
+
+    mathstat                       shift and go to state 104
+
+state 103
+
+    (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB . mathstat
+    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
+    (13) mathstat -> . SQRT OB mathstats CB
+    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+
+    FRAC            shift and go to state 34
+    SQRT            shift and go to state 35
+    INT             shift and go to state 36
+    SUM             shift and go to state 37
+
+    mathstat                       shift and go to state 105
+
+state 104
+
+    (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .
+
+    DOLLAR          reduce using rule 29 (mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
+    FRAC            reduce using rule 29 (mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
+    SQRT            reduce using rule 29 (mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
+    INT             reduce using rule 29 (mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
+    SUM             reduce using rule 29 (mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
+    CB              reduce using rule 29 (mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
+
+
+state 105
+
+    (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .
+
+    DOLLAR          reduce using rule 30 (mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
+    FRAC            reduce using rule 30 (mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
+    SQRT            reduce using rule 30 (mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
+    INT             reduce using rule 30 (mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
+    SUM             reduce using rule 30 (mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
+    CB              reduce using rule 30 (mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
 

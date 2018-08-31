@@ -6,6 +6,7 @@ __pycache__/
 .idea
 *.html
 *.out
+*.jpg
 parsetab.py
 
 # C extensions
