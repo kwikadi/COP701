@@ -1,13 +1,4 @@
-import argparse
 import re
-
-
-def get_input():
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("inputFile", help="The name of the LaTeX file to process")
-    args = parser.parse_args()
-    return args.inputFile
 
 
 def clean_input_string(string):
@@ -24,6 +15,7 @@ def clean_input_file(inputfile):
 
     for i in open(inputfile, 'r').readlines():
         if i.strip() == r'\end{document}':
+            cleaned_string += clean_input_string(i)
             break
         elif i.strip() == r'\begin{document}':
             start_copying = 1
@@ -35,7 +27,6 @@ def clean_input_file(inputfile):
     return cleaned_string
 
 
-def clean_input():
-    inputfile = get_input()
+def clean_input(inputfile):
     cleanedfile = clean_input_file(inputfile)
     return cleanedfile

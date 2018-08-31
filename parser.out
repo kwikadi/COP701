@@ -7,7 +7,7 @@ Unused terminals:
 Grammar
 
 Rule 0     S' -> totaldoc
-Rule 1     totaldoc -> begindoc statements enddoc
+Rule 1     totaldoc -> begindoc statements enddoc NEWLINE
 Rule 2     begindoc -> BEGIN OB DOC CB NEWLINE
 Rule 3     enddoc -> END OB DOC CB
 Rule 4     statements -> statements statement
@@ -56,7 +56,7 @@ INT                  : 29
 ITALICS              : 11
 ITEM                 : 27
 ITEMIZE              : 22 24
-NEWLINE              : 2 8
+NEWLINE              : 1 2 8
 OB                   : 2 3 6 7 10 11 12 12 13 14 15 21 22 23 24 28 29 29 30 30
 PAR                  : 20
 SECTION              : 6
@@ -87,7 +87,7 @@ Parsing method: LALR
 state 0
 
     (0) S' -> . totaldoc
-    (1) totaldoc -> . begindoc statements enddoc
+    (1) totaldoc -> . begindoc statements enddoc NEWLINE
     (2) begindoc -> . BEGIN OB DOC CB NEWLINE
 
     BEGIN           shift and go to state 3
@@ -103,7 +103,7 @@ state 1
 
 state 2
 
-    (1) totaldoc -> begindoc . statements enddoc
+    (1) totaldoc -> begindoc . statements enddoc NEWLINE
     (4) statements -> . statements statement
     (5) statements -> . statement
     (6) statement -> . SECTION OB statements CB
@@ -123,9 +123,9 @@ state 2
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -138,7 +138,7 @@ state 2
     BEGIN           shift and go to state 20
 
     statements                     shift and go to state 4
-    statement                      shift and go to state 5
+    statement                      shift and go to state 6
     beginenum                      shift and go to state 16
     beginitemize                   shift and go to state 17
 
@@ -151,7 +151,7 @@ state 3
 
 state 4
 
-    (1) totaldoc -> begindoc statements . enddoc
+    (1) totaldoc -> begindoc statements . enddoc NEWLINE
     (4) statements -> statements . statement
     (3) enddoc -> . END OB DOC CB
     (6) statement -> . SECTION OB statements CB
@@ -172,9 +172,9 @@ state 4
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
     END             shift and go to state 24
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -192,6 +192,27 @@ state 4
     beginitemize                   shift and go to state 17
 
 state 5
+
+    (8) statement -> NEWLINE .
+
+    END             reduce using rule 8 (statement -> NEWLINE .)
+    SECTION         reduce using rule 8 (statement -> NEWLINE .)
+    SUBSECTION      reduce using rule 8 (statement -> NEWLINE .)
+    NEWLINE         reduce using rule 8 (statement -> NEWLINE .)
+    TEXT            reduce using rule 8 (statement -> NEWLINE .)
+    BOLD            reduce using rule 8 (statement -> NEWLINE .)
+    ITALICS         reduce using rule 8 (statement -> NEWLINE .)
+    UNDERLINE       reduce using rule 8 (statement -> NEWLINE .)
+    CAPTION         reduce using rule 8 (statement -> NEWLINE .)
+    DOLLAR          reduce using rule 8 (statement -> NEWLINE .)
+    PAR             reduce using rule 8 (statement -> NEWLINE .)
+    ITEM            reduce using rule 8 (statement -> NEWLINE .)
+    INCLUDEGRAPHICS reduce using rule 8 (statement -> NEWLINE .)
+    BEGIN           reduce using rule 8 (statement -> NEWLINE .)
+    CB              reduce using rule 8 (statement -> NEWLINE .)
+
+
+state 6
 
     (5) statements -> statement .
 
@@ -212,39 +233,18 @@ state 5
     CB              reduce using rule 5 (statements -> statement .)
 
 
-state 6
+state 7
 
     (6) statement -> SECTION . OB statements CB
 
     OB              shift and go to state 25
 
 
-state 7
+state 8
 
     (7) statement -> SUBSECTION . OB statements CB
 
     OB              shift and go to state 26
-
-
-state 8
-
-    (8) statement -> NEWLINE .
-
-    END             reduce using rule 8 (statement -> NEWLINE .)
-    SECTION         reduce using rule 8 (statement -> NEWLINE .)
-    SUBSECTION      reduce using rule 8 (statement -> NEWLINE .)
-    NEWLINE         reduce using rule 8 (statement -> NEWLINE .)
-    TEXT            reduce using rule 8 (statement -> NEWLINE .)
-    BOLD            reduce using rule 8 (statement -> NEWLINE .)
-    ITALICS         reduce using rule 8 (statement -> NEWLINE .)
-    UNDERLINE       reduce using rule 8 (statement -> NEWLINE .)
-    CAPTION         reduce using rule 8 (statement -> NEWLINE .)
-    DOLLAR          reduce using rule 8 (statement -> NEWLINE .)
-    PAR             reduce using rule 8 (statement -> NEWLINE .)
-    ITEM            reduce using rule 8 (statement -> NEWLINE .)
-    INCLUDEGRAPHICS reduce using rule 8 (statement -> NEWLINE .)
-    BEGIN           reduce using rule 8 (statement -> NEWLINE .)
-    CB              reduce using rule 8 (statement -> NEWLINE .)
 
 
 state 9
@@ -359,9 +359,9 @@ state 16
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -375,7 +375,7 @@ state 16
 
     beginenum                      shift and go to state 16
     statements                     shift and go to state 38
-    statement                      shift and go to state 5
+    statement                      shift and go to state 6
     beginitemize                   shift and go to state 17
 
 state 17
@@ -400,9 +400,9 @@ state 17
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -416,7 +416,7 @@ state 17
 
     beginitemize                   shift and go to state 17
     statements                     shift and go to state 39
-    statement                      shift and go to state 5
+    statement                      shift and go to state 6
     beginenum                      shift and go to state 16
 
 state 18
@@ -439,9 +439,9 @@ state 18
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -481,9 +481,9 @@ state 21
 
 state 22
 
-    (1) totaldoc -> begindoc statements enddoc .
+    (1) totaldoc -> begindoc statements enddoc . NEWLINE
 
-    $end            reduce using rule 1 (totaldoc -> begindoc statements enddoc .)
+    NEWLINE         shift and go to state 44
 
 
 state 23
@@ -511,7 +511,7 @@ state 24
 
     (3) enddoc -> END . OB DOC CB
 
-    OB              shift and go to state 44
+    OB              shift and go to state 45
 
 
 state 25
@@ -536,9 +536,9 @@ state 25
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -550,8 +550,8 @@ state 25
     INCLUDEGRAPHICS shift and go to state 19
     BEGIN           shift and go to state 20
 
-    statements                     shift and go to state 45
-    statement                      shift and go to state 5
+    statements                     shift and go to state 46
+    statement                      shift and go to state 6
     beginenum                      shift and go to state 16
     beginitemize                   shift and go to state 17
 
@@ -577,9 +577,9 @@ state 26
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -591,8 +591,8 @@ state 26
     INCLUDEGRAPHICS shift and go to state 19
     BEGIN           shift and go to state 20
 
-    statements                     shift and go to state 46
-    statement                      shift and go to state 5
+    statements                     shift and go to state 47
+    statement                      shift and go to state 6
     beginenum                      shift and go to state 16
     beginitemize                   shift and go to state 17
 
@@ -618,9 +618,9 @@ state 27
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -632,8 +632,8 @@ state 27
     INCLUDEGRAPHICS shift and go to state 19
     BEGIN           shift and go to state 20
 
-    statements                     shift and go to state 47
-    statement                      shift and go to state 5
+    statements                     shift and go to state 48
+    statement                      shift and go to state 6
     beginenum                      shift and go to state 16
     beginitemize                   shift and go to state 17
 
@@ -659,9 +659,9 @@ state 28
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -673,8 +673,8 @@ state 28
     INCLUDEGRAPHICS shift and go to state 19
     BEGIN           shift and go to state 20
 
-    statements                     shift and go to state 48
-    statement                      shift and go to state 5
+    statements                     shift and go to state 49
+    statement                      shift and go to state 6
     beginenum                      shift and go to state 16
     beginitemize                   shift and go to state 17
 
@@ -700,9 +700,9 @@ state 29
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -714,8 +714,8 @@ state 29
     INCLUDEGRAPHICS shift and go to state 19
     BEGIN           shift and go to state 20
 
-    statements                     shift and go to state 49
-    statement                      shift and go to state 5
+    statements                     shift and go to state 50
+    statement                      shift and go to state 6
     beginenum                      shift and go to state 16
     beginitemize                   shift and go to state 17
 
@@ -741,9 +741,9 @@ state 30
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -755,8 +755,8 @@ state 30
     INCLUDEGRAPHICS shift and go to state 19
     BEGIN           shift and go to state 20
 
-    statements                     shift and go to state 50
-    statement                      shift and go to state 5
+    statements                     shift and go to state 51
+    statement                      shift and go to state 6
     beginenum                      shift and go to state 16
     beginitemize                   shift and go to state 17
 
@@ -769,13 +769,13 @@ state 31
     (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
     (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
 
-    DOLLAR          shift and go to state 51
+    DOLLAR          shift and go to state 52
     FRAC            shift and go to state 34
     SQRT            shift and go to state 35
     INT             shift and go to state 36
     SUM             shift and go to state 37
 
-    mathstat                       shift and go to state 52
+    mathstat                       shift and go to state 53
 
 state 32
 
@@ -805,28 +805,28 @@ state 34
 
     (12) mathstat -> FRAC . OB mathstats CB OB mathstats CB
 
-    OB              shift and go to state 53
+    OB              shift and go to state 54
 
 
 state 35
 
     (13) mathstat -> SQRT . OB mathstats CB
 
-    OB              shift and go to state 54
+    OB              shift and go to state 55
 
 
 state 36
 
     (29) mathstat -> INT . UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
 
-    UNDERSCORE      shift and go to state 55
+    UNDERSCORE      shift and go to state 56
 
 
 state 37
 
     (30) mathstat -> SUM . UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
 
-    UNDERSCORE      shift and go to state 56
+    UNDERSCORE      shift and go to state 57
 
 
 state 38
@@ -851,10 +851,10 @@ state 38
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    END             shift and go to state 58
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    END             shift and go to state 59
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -867,7 +867,7 @@ state 38
     BEGIN           shift and go to state 20
 
     beginenum                      shift and go to state 16
-    endenum                        shift and go to state 57
+    endenum                        shift and go to state 58
     statement                      shift and go to state 23
     beginitemize                   shift and go to state 17
 
@@ -893,10 +893,10 @@ state 39
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    END             shift and go to state 60
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    END             shift and go to state 61
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -909,7 +909,7 @@ state 39
     BEGIN           shift and go to state 20
 
     beginitemize                   shift and go to state 17
-    enditemize                     shift and go to state 59
+    enditemize                     shift and go to state 60
     statement                      shift and go to state 23
     beginenum                      shift and go to state 16
 
@@ -938,7 +938,7 @@ state 41
 
     (28) statement -> INCLUDEGRAPHICS OB . TEXT CB
 
-    TEXT            shift and go to state 61
+    TEXT            shift and go to state 62
 
 
 state 42
@@ -946,25 +946,32 @@ state 42
     (21) beginenum -> BEGIN OB . ENUMERATE CB
     (22) beginitemize -> BEGIN OB . ITEMIZE CB
 
-    ENUMERATE       shift and go to state 62
-    ITEMIZE         shift and go to state 63
+    ENUMERATE       shift and go to state 63
+    ITEMIZE         shift and go to state 64
 
 
 state 43
 
     (2) begindoc -> BEGIN OB DOC . CB NEWLINE
 
-    CB              shift and go to state 64
+    CB              shift and go to state 65
 
 
 state 44
 
-    (3) enddoc -> END OB . DOC CB
+    (1) totaldoc -> begindoc statements enddoc NEWLINE .
 
-    DOC             shift and go to state 65
+    $end            reduce using rule 1 (totaldoc -> begindoc statements enddoc NEWLINE .)
 
 
 state 45
+
+    (3) enddoc -> END OB . DOC CB
+
+    DOC             shift and go to state 66
+
+
+state 46
 
     (6) statement -> SECTION OB statements . CB
     (4) statements -> statements . statement
@@ -985,10 +992,10 @@ state 45
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    CB              shift and go to state 66
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    CB              shift and go to state 67
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -1004,7 +1011,7 @@ state 45
     beginenum                      shift and go to state 16
     beginitemize                   shift and go to state 17
 
-state 46
+state 47
 
     (7) statement -> SUBSECTION OB statements . CB
     (4) statements -> statements . statement
@@ -1025,10 +1032,10 @@ state 46
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    CB              shift and go to state 67
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    CB              shift and go to state 68
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -1044,7 +1051,7 @@ state 46
     beginenum                      shift and go to state 16
     beginitemize                   shift and go to state 17
 
-state 47
+state 48
 
     (10) statement -> BOLD OB statements . CB
     (4) statements -> statements . statement
@@ -1065,10 +1072,10 @@ state 47
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    CB              shift and go to state 68
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    CB              shift and go to state 69
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -1084,7 +1091,7 @@ state 47
     beginenum                      shift and go to state 16
     beginitemize                   shift and go to state 17
 
-state 48
+state 49
 
     (11) statement -> ITALICS OB statements . CB
     (4) statements -> statements . statement
@@ -1105,10 +1112,10 @@ state 48
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    CB              shift and go to state 69
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    CB              shift and go to state 70
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -1124,7 +1131,7 @@ state 48
     beginenum                      shift and go to state 16
     beginitemize                   shift and go to state 17
 
-state 49
+state 50
 
     (14) statement -> UNDERLINE OB statements . CB
     (4) statements -> statements . statement
@@ -1145,10 +1152,10 @@ state 49
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    CB              shift and go to state 70
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    CB              shift and go to state 71
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -1164,7 +1171,7 @@ state 49
     beginenum                      shift and go to state 16
     beginitemize                   shift and go to state 17
 
-state 50
+state 51
 
     (15) statement -> CAPTION OB statements . CB
     (4) statements -> statements . statement
@@ -1185,10 +1192,10 @@ state 50
     (21) beginenum -> . BEGIN OB ENUMERATE CB
     (22) beginitemize -> . BEGIN OB ITEMIZE CB
 
-    CB              shift and go to state 71
-    SECTION         shift and go to state 6
-    SUBSECTION      shift and go to state 7
-    NEWLINE         shift and go to state 8
+    CB              shift and go to state 72
+    SECTION         shift and go to state 7
+    SUBSECTION      shift and go to state 8
+    NEWLINE         shift and go to state 5
     TEXT            shift and go to state 9
     BOLD            shift and go to state 10
     ITALICS         shift and go to state 11
@@ -1204,7 +1211,7 @@ state 50
     beginenum                      shift and go to state 16
     beginitemize                   shift and go to state 17
 
-state 51
+state 52
 
     (16) statement -> DOLLAR mathstats DOLLAR .
 
@@ -1225,7 +1232,7 @@ state 51
     CB              reduce using rule 16 (statement -> DOLLAR mathstats DOLLAR .)
 
 
-state 52
+state 53
 
     (17) mathstats -> mathstats mathstat .
 
@@ -1237,29 +1244,9 @@ state 52
     CB              reduce using rule 17 (mathstats -> mathstats mathstat .)
 
 
-state 53
-
-    (12) mathstat -> FRAC OB . mathstats CB OB mathstats CB
-    (17) mathstats -> . mathstats mathstat
-    (18) mathstats -> . mathstat
-    (19) mathstats -> . TEXT
-    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
-    (13) mathstat -> . SQRT OB mathstats CB
-    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
-    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
-
-    TEXT            shift and go to state 33
-    FRAC            shift and go to state 34
-    SQRT            shift and go to state 35
-    INT             shift and go to state 36
-    SUM             shift and go to state 37
-
-    mathstats                      shift and go to state 72
-    mathstat                       shift and go to state 32
-
 state 54
 
-    (13) mathstat -> SQRT OB . mathstats CB
+    (12) mathstat -> FRAC OB . mathstats CB OB mathstats CB
     (17) mathstats -> . mathstats mathstat
     (18) mathstats -> . mathstat
     (19) mathstats -> . TEXT
@@ -1279,19 +1266,39 @@ state 54
 
 state 55
 
-    (29) mathstat -> INT UNDERSCORE . OB TEXT CB CARET OB TEXT CB mathstat
+    (13) mathstat -> SQRT OB . mathstats CB
+    (17) mathstats -> . mathstats mathstat
+    (18) mathstats -> . mathstat
+    (19) mathstats -> . TEXT
+    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
+    (13) mathstat -> . SQRT OB mathstats CB
+    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
 
-    OB              shift and go to state 74
+    TEXT            shift and go to state 33
+    FRAC            shift and go to state 34
+    SQRT            shift and go to state 35
+    INT             shift and go to state 36
+    SUM             shift and go to state 37
 
+    mathstats                      shift and go to state 74
+    mathstat                       shift and go to state 32
 
 state 56
 
-    (30) mathstat -> SUM UNDERSCORE . OB TEXT CB CARET OB TEXT CB mathstat
+    (29) mathstat -> INT UNDERSCORE . OB TEXT CB CARET OB TEXT CB mathstat
 
     OB              shift and go to state 75
 
 
 state 57
+
+    (30) mathstat -> SUM UNDERSCORE . OB TEXT CB CARET OB TEXT CB mathstat
+
+    OB              shift and go to state 76
+
+
+state 58
 
     (25) statement -> beginenum statements endenum .
 
@@ -1312,14 +1319,14 @@ state 57
     CB              reduce using rule 25 (statement -> beginenum statements endenum .)
 
 
-state 58
+state 59
 
     (23) endenum -> END . OB ENUMERATE CB
 
-    OB              shift and go to state 76
+    OB              shift and go to state 77
 
 
-state 59
+state 60
 
     (26) statement -> beginitemize statements enditemize .
 
@@ -1340,49 +1347,49 @@ state 59
     CB              reduce using rule 26 (statement -> beginitemize statements enditemize .)
 
 
-state 60
+state 61
 
     (24) enditemize -> END . OB ITEMIZE CB
 
-    OB              shift and go to state 77
-
-
-state 61
-
-    (28) statement -> INCLUDEGRAPHICS OB TEXT . CB
-
-    CB              shift and go to state 78
+    OB              shift and go to state 78
 
 
 state 62
 
-    (21) beginenum -> BEGIN OB ENUMERATE . CB
+    (28) statement -> INCLUDEGRAPHICS OB TEXT . CB
 
     CB              shift and go to state 79
 
 
 state 63
 
-    (22) beginitemize -> BEGIN OB ITEMIZE . CB
+    (21) beginenum -> BEGIN OB ENUMERATE . CB
 
     CB              shift and go to state 80
 
 
 state 64
 
-    (2) begindoc -> BEGIN OB DOC CB . NEWLINE
+    (22) beginitemize -> BEGIN OB ITEMIZE . CB
 
-    NEWLINE         shift and go to state 81
+    CB              shift and go to state 81
 
 
 state 65
 
-    (3) enddoc -> END OB DOC . CB
+    (2) begindoc -> BEGIN OB DOC CB . NEWLINE
 
-    CB              shift and go to state 82
+    NEWLINE         shift and go to state 82
 
 
 state 66
+
+    (3) enddoc -> END OB DOC . CB
+
+    CB              shift and go to state 83
+
+
+state 67
 
     (6) statement -> SECTION OB statements CB .
 
@@ -1403,7 +1410,7 @@ state 66
     CB              reduce using rule 6 (statement -> SECTION OB statements CB .)
 
 
-state 67
+state 68
 
     (7) statement -> SUBSECTION OB statements CB .
 
@@ -1424,7 +1431,7 @@ state 67
     CB              reduce using rule 7 (statement -> SUBSECTION OB statements CB .)
 
 
-state 68
+state 69
 
     (10) statement -> BOLD OB statements CB .
 
@@ -1445,7 +1452,7 @@ state 68
     CB              reduce using rule 10 (statement -> BOLD OB statements CB .)
 
 
-state 69
+state 70
 
     (11) statement -> ITALICS OB statements CB .
 
@@ -1466,7 +1473,7 @@ state 69
     CB              reduce using rule 11 (statement -> ITALICS OB statements CB .)
 
 
-state 70
+state 71
 
     (14) statement -> UNDERLINE OB statements CB .
 
@@ -1487,7 +1494,7 @@ state 70
     CB              reduce using rule 14 (statement -> UNDERLINE OB statements CB .)
 
 
-state 71
+state 72
 
     (15) statement -> CAPTION OB statements CB .
 
@@ -1508,26 +1515,9 @@ state 71
     CB              reduce using rule 15 (statement -> CAPTION OB statements CB .)
 
 
-state 72
-
-    (12) mathstat -> FRAC OB mathstats . CB OB mathstats CB
-    (17) mathstats -> mathstats . mathstat
-    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
-    (13) mathstat -> . SQRT OB mathstats CB
-    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
-    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
-
-    CB              shift and go to state 83
-    FRAC            shift and go to state 34
-    SQRT            shift and go to state 35
-    INT             shift and go to state 36
-    SUM             shift and go to state 37
-
-    mathstat                       shift and go to state 52
-
 state 73
 
-    (13) mathstat -> SQRT OB mathstats . CB
+    (12) mathstat -> FRAC OB mathstats . CB OB mathstats CB
     (17) mathstats -> mathstats . mathstat
     (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
     (13) mathstat -> . SQRT OB mathstats CB
@@ -1540,37 +1530,54 @@ state 73
     INT             shift and go to state 36
     SUM             shift and go to state 37
 
-    mathstat                       shift and go to state 52
+    mathstat                       shift and go to state 53
 
 state 74
 
-    (29) mathstat -> INT UNDERSCORE OB . TEXT CB CARET OB TEXT CB mathstat
+    (13) mathstat -> SQRT OB mathstats . CB
+    (17) mathstats -> mathstats . mathstat
+    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
+    (13) mathstat -> . SQRT OB mathstats CB
+    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
 
-    TEXT            shift and go to state 85
+    CB              shift and go to state 85
+    FRAC            shift and go to state 34
+    SQRT            shift and go to state 35
+    INT             shift and go to state 36
+    SUM             shift and go to state 37
 
+    mathstat                       shift and go to state 53
 
 state 75
 
-    (30) mathstat -> SUM UNDERSCORE OB . TEXT CB CARET OB TEXT CB mathstat
+    (29) mathstat -> INT UNDERSCORE OB . TEXT CB CARET OB TEXT CB mathstat
 
     TEXT            shift and go to state 86
 
 
 state 76
 
-    (23) endenum -> END OB . ENUMERATE CB
+    (30) mathstat -> SUM UNDERSCORE OB . TEXT CB CARET OB TEXT CB mathstat
 
-    ENUMERATE       shift and go to state 87
+    TEXT            shift and go to state 87
 
 
 state 77
 
-    (24) enditemize -> END OB . ITEMIZE CB
+    (23) endenum -> END OB . ENUMERATE CB
 
-    ITEMIZE         shift and go to state 88
+    ENUMERATE       shift and go to state 88
 
 
 state 78
+
+    (24) enditemize -> END OB . ITEMIZE CB
+
+    ITEMIZE         shift and go to state 89
+
+
+state 79
 
     (28) statement -> INCLUDEGRAPHICS OB TEXT CB .
 
@@ -1591,7 +1598,7 @@ state 78
     CB              reduce using rule 28 (statement -> INCLUDEGRAPHICS OB TEXT CB .)
 
 
-state 79
+state 80
 
     (21) beginenum -> BEGIN OB ENUMERATE CB .
 
@@ -1610,7 +1617,7 @@ state 79
     BEGIN           reduce using rule 21 (beginenum -> BEGIN OB ENUMERATE CB .)
 
 
-state 80
+state 81
 
     (22) beginitemize -> BEGIN OB ITEMIZE CB .
 
@@ -1629,7 +1636,7 @@ state 80
     BEGIN           reduce using rule 22 (beginitemize -> BEGIN OB ITEMIZE CB .)
 
 
-state 81
+state 82
 
     (2) begindoc -> BEGIN OB DOC CB NEWLINE .
 
@@ -1648,21 +1655,21 @@ state 81
     BEGIN           reduce using rule 2 (begindoc -> BEGIN OB DOC CB NEWLINE .)
 
 
-state 82
+state 83
 
     (3) enddoc -> END OB DOC CB .
 
-    $end            reduce using rule 3 (enddoc -> END OB DOC CB .)
-
-
-state 83
-
-    (12) mathstat -> FRAC OB mathstats CB . OB mathstats CB
-
-    OB              shift and go to state 89
+    NEWLINE         reduce using rule 3 (enddoc -> END OB DOC CB .)
 
 
 state 84
+
+    (12) mathstat -> FRAC OB mathstats CB . OB mathstats CB
+
+    OB              shift and go to state 90
+
+
+state 85
 
     (13) mathstat -> SQRT OB mathstats CB .
 
@@ -1674,35 +1681,35 @@ state 84
     CB              reduce using rule 13 (mathstat -> SQRT OB mathstats CB .)
 
 
-state 85
-
-    (29) mathstat -> INT UNDERSCORE OB TEXT . CB CARET OB TEXT CB mathstat
-
-    CB              shift and go to state 90
-
-
 state 86
 
-    (30) mathstat -> SUM UNDERSCORE OB TEXT . CB CARET OB TEXT CB mathstat
+    (29) mathstat -> INT UNDERSCORE OB TEXT . CB CARET OB TEXT CB mathstat
 
     CB              shift and go to state 91
 
 
 state 87
 
-    (23) endenum -> END OB ENUMERATE . CB
+    (30) mathstat -> SUM UNDERSCORE OB TEXT . CB CARET OB TEXT CB mathstat
 
     CB              shift and go to state 92
 
 
 state 88
 
-    (24) enditemize -> END OB ITEMIZE . CB
+    (23) endenum -> END OB ENUMERATE . CB
 
     CB              shift and go to state 93
 
 
 state 89
+
+    (24) enditemize -> END OB ITEMIZE . CB
+
+    CB              shift and go to state 94
+
+
+state 90
 
     (12) mathstat -> FRAC OB mathstats CB OB . mathstats CB
     (17) mathstats -> . mathstats mathstat
@@ -1719,24 +1726,24 @@ state 89
     INT             shift and go to state 36
     SUM             shift and go to state 37
 
-    mathstats                      shift and go to state 94
+    mathstats                      shift and go to state 95
     mathstat                       shift and go to state 32
-
-state 90
-
-    (29) mathstat -> INT UNDERSCORE OB TEXT CB . CARET OB TEXT CB mathstat
-
-    CARET           shift and go to state 95
-
 
 state 91
 
-    (30) mathstat -> SUM UNDERSCORE OB TEXT CB . CARET OB TEXT CB mathstat
+    (29) mathstat -> INT UNDERSCORE OB TEXT CB . CARET OB TEXT CB mathstat
 
     CARET           shift and go to state 96
 
 
 state 92
+
+    (30) mathstat -> SUM UNDERSCORE OB TEXT CB . CARET OB TEXT CB mathstat
+
+    CARET           shift and go to state 97
+
+
+state 93
 
     (23) endenum -> END OB ENUMERATE CB .
 
@@ -1757,7 +1764,7 @@ state 92
     CB              reduce using rule 23 (endenum -> END OB ENUMERATE CB .)
 
 
-state 93
+state 94
 
     (24) enditemize -> END OB ITEMIZE CB .
 
@@ -1778,7 +1785,7 @@ state 93
     CB              reduce using rule 24 (enditemize -> END OB ITEMIZE CB .)
 
 
-state 94
+state 95
 
     (12) mathstat -> FRAC OB mathstats CB OB mathstats . CB
     (17) mathstats -> mathstats . mathstat
@@ -1787,29 +1794,29 @@ state 94
     (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
     (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
 
-    CB              shift and go to state 97
+    CB              shift and go to state 98
     FRAC            shift and go to state 34
     SQRT            shift and go to state 35
     INT             shift and go to state 36
     SUM             shift and go to state 37
 
-    mathstat                       shift and go to state 52
-
-state 95
-
-    (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET . OB TEXT CB mathstat
-
-    OB              shift and go to state 98
-
+    mathstat                       shift and go to state 53
 
 state 96
 
-    (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET . OB TEXT CB mathstat
+    (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET . OB TEXT CB mathstat
 
     OB              shift and go to state 99
 
 
 state 97
+
+    (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET . OB TEXT CB mathstat
+
+    OB              shift and go to state 100
+
+
+state 98
 
     (12) mathstat -> FRAC OB mathstats CB OB mathstats CB .
 
@@ -1821,52 +1828,37 @@ state 97
     CB              reduce using rule 12 (mathstat -> FRAC OB mathstats CB OB mathstats CB .)
 
 
-state 98
-
-    (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET OB . TEXT CB mathstat
-
-    TEXT            shift and go to state 100
-
-
 state 99
 
-    (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB . TEXT CB mathstat
+    (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET OB . TEXT CB mathstat
 
     TEXT            shift and go to state 101
 
 
 state 100
 
-    (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT . CB mathstat
+    (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB . TEXT CB mathstat
 
-    CB              shift and go to state 102
+    TEXT            shift and go to state 102
 
 
 state 101
 
-    (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT . CB mathstat
+    (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT . CB mathstat
 
     CB              shift and go to state 103
 
 
 state 102
 
-    (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB . mathstat
-    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
-    (13) mathstat -> . SQRT OB mathstats CB
-    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
-    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT . CB mathstat
 
-    FRAC            shift and go to state 34
-    SQRT            shift and go to state 35
-    INT             shift and go to state 36
-    SUM             shift and go to state 37
+    CB              shift and go to state 104
 
-    mathstat                       shift and go to state 104
 
 state 103
 
-    (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB . mathstat
+    (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB . mathstat
     (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
     (13) mathstat -> . SQRT OB mathstats CB
     (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
@@ -1881,6 +1873,21 @@ state 103
 
 state 104
 
+    (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB . mathstat
+    (12) mathstat -> . FRAC OB mathstats CB OB mathstats CB
+    (13) mathstat -> . SQRT OB mathstats CB
+    (29) mathstat -> . INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+    (30) mathstat -> . SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
+
+    FRAC            shift and go to state 34
+    SQRT            shift and go to state 35
+    INT             shift and go to state 36
+    SUM             shift and go to state 37
+
+    mathstat                       shift and go to state 106
+
+state 105
+
     (29) mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .
 
     DOLLAR          reduce using rule 29 (mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
@@ -1891,7 +1898,7 @@ state 104
     CB              reduce using rule 29 (mathstat -> INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .)
 
 
-state 105
+state 106
 
     (30) mathstat -> SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat .
 

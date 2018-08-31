@@ -1,12 +1,12 @@
 import ply.yacc as yacc
-from latexlexer import tokens, data
+from latexlexer import tokens, get_data
 from node import Node
 from parseast import parse_ast, get_html_string
-
+import argparse
 
 def p_latex_complete(p):
     """
-    totaldoc : begindoc statements enddoc
+    totaldoc : begindoc statements enddoc NEWLINE
     """
     p[0] = Node('total', [p[2]])
 
@@ -202,10 +202,19 @@ def p_sum_statement(p):
     p[0] = Node('sum', information=[p[4], p[8]])
 
 
+def get_input():
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("inputFile", help="The name of the LaTeX file to process")
+    args = parser.parse_args()
+    return args.inputFile
+
+
+input_file = get_input()
+data = get_data(input_file)
+print(data)
 parser = yacc.yacc()
-
 result = parser.parse(data)
-
 parse_ast(result)
 
 with open('test.html', 'w') as testfile:

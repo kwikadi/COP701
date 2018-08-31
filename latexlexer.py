@@ -108,45 +108,11 @@ def t_error(t):
     t.lexer.skip(1)
 
 
-lexer = lex.lex()
+def get_data(inputfile):
+    lexer = lex.lex()
+    data = clean_input(inputfile)
+    return data
 
-# data = clean_input()
-data = r'''\begin{document}
-
-\section{Introduction}
-
-This is the \textit{first} section.
-
-Lorem  \textbf{ipsum  dolor  sit  amet,  consectetuer}  adipiscing
-elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et
-neque pharetra \underline{sollicitudin.  Praesent} imperdietmi nec ante. \par
-Donec ullamcorper, felis non sodales...
-
-\section{Second Section}
-
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-Etiam lobortis facilisissem.  Nullam nec mi et neque pharetra
-sollicitudin.  Praesent imperdiet mi necante...
-
-
-\subsection{Second Section}
-
-\includegraphics{passport.jpg}
-
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-Etiam lobortis facilisissem.  Nullam nec mi et neque pharetra
-sollicitudin.  Praesent imperdiet mi necante...
-
-\subsection{Second Section}
-
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-Etiam lobortis facilisissem.  Nullam nec mi et neque pharetra
-sollicitudin.  Praesent imperdiet mi necante...
-
-
-\end{document}'''
-
-lexer.input(data)
 
 # while True:
 #     tok = lexer.token()
