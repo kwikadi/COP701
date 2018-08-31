@@ -35,7 +35,6 @@ t_OB = r'{'
 t_CB = r'}'
 t_DOLLAR = r'\$'
 t_CARET = r'\^'
-t_UNDERSCORE = r'_'
 
 def t_COMMAND(t):
     r'\\[a-z]+'
@@ -100,6 +99,8 @@ def t_TEXT(t):
     elif t.value == 'itemize':
         t.type = 'ITEMIZE'
 
+    elif t.value == '_':
+        t.type = 'UNDERSCORE'
     return t
 
 
@@ -111,11 +112,12 @@ def t_error(t):
 def get_data(inputfile):
     lexer = lex.lex()
     data = clean_input(inputfile)
+    lexer.input(data)
+
+
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break
+        print(tok)
     return data
-
-
-# while True:
-#     tok = lexer.token()
-#     if not tok:
-#         break
-#     print(tok)

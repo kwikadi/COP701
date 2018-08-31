@@ -35,7 +35,7 @@ itemize_end = '</ul>'
 item_start = '<li>'
 item_end ='</li>'
 
-image_tag = '<img src=\"{0}\">'
+image_tag = '<img src=\"{0}\" height="72pt" width="72pt">'
 
 sqrt_start = '&radic;<span style="text-decoration: overline">'
 sqrt_end = '</span>'
@@ -44,9 +44,9 @@ fraction_start = '<span style="display: inline-block;vertical-align: middle;"><d
 fraction_between = '</div><div style="text-align: center;">'
 fraction_end = '</div></span>'
 
-integral_tag = '∫<sub>{0}</sub><sup>{1}</sup>'
+integral_tag = '&#8747;<sub>{0}</sub><sup>{1}</sup>'
 
-sum_tag = '∑<sub>{0}</sub><sup>{1}</sup>'
+sum_tag = '&#8721;<sub>{0}</sub><sup>{1}</sup>'
 
 caption_start = '<p style="text-align:center">'
 caption_end = '</p>'

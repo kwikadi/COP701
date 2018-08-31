@@ -121,13 +121,20 @@ def p_math_statements(p):
     p[0] = Node('mathstats', [p[1],p[2]])
 
 
+# fix this
 def p_math_statement(p):
     """
     mathstats : mathstat
-              | TEXT
     """
-    p[0] = Node('mathstat', [p[1]])
+    p[0] = Node('mathstats', [p[1]])
 
+
+def p_math_statement_final(p):
+    """
+    mathstat : TEXT
+              | NEWLINE
+    """
+    p[0] = Node('mathstat', information=p[1])
 
 def p_paragraph_statement(p):
     """
@@ -178,7 +185,7 @@ def p_item_statement(p):
     """
     statement : ITEM statement
     """
-    p[0] = Node('item', [p[1]])
+    p[0] = Node('item', [p[2]])
 
 
 def p_graphics_statement(p):
@@ -192,14 +199,14 @@ def p_integral_statement(p):
     """
     mathstat : INT UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
     """
-    p[0] = Node('integral', information=[p[4], p[8]])
+    p[0] = Node('integral', information=[p[4], p[8]], children=[p[10]])
 
 
 def p_sum_statement(p):
     """
     mathstat : SUM UNDERSCORE OB TEXT CB CARET OB TEXT CB mathstat
     """
-    p[0] = Node('sum', information=[p[4], p[8]])
+    p[0] = Node('sum', information=[p[4], p[8]], children=[p[10]])
 
 
 def get_input():
@@ -212,7 +219,7 @@ def get_input():
 
 input_file = get_input()
 data = get_data(input_file)
-print(data)
+# print(data)
 parser = yacc.yacc()
 result = parser.parse(data)
 parse_ast(result)

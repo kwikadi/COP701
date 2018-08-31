@@ -88,13 +88,19 @@ def parse_ast(node):
             body_string += fraction_end
 
         elif node.type == 'integral':
-            body_string += integral_tag
+            body_string += integral_tag.format(node.information[0], node.information[1])
+            parse_ast(node.children[0])
 
         elif node.type == 'sum':
-            body_string += sum_tag
+            body_string += sum_tag.format(node.information[0], node.information[1])
 
         elif node.type == 'caption':
             body_string += caption_start
             parse_ast(node.children[0])
             body_string += caption_end
 
+        elif node.type == 'mathstat':
+            body_string += f'{node.information}'
+
+        elif node.type == 'mathstats':
+            parse_ast(node.children[0])
