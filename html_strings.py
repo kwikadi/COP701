@@ -3,6 +3,7 @@ start_string ='''<!DOCTYPE html>
 <head>
   <meta charset="utf-8">
   <title></title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>'''
 
@@ -35,7 +36,7 @@ itemize_end = '</ul>'
 item_start = '<li>'
 item_end ='</li>'
 
-image_tag = '<img src=\"{0}\" height="72pt" width="72pt">'
+image_tag = '<img src=\"{0}\" height="200pt" width="200pt" class="center">'
 
 sqrt_start = '&radic;<span style="text-decoration: overline">'
 sqrt_end = '</span>'
@@ -48,5 +49,12 @@ integral_tag = '&#8747;<sub>{0}</sub><sup>{1}</sup>'
 
 sum_tag = '&#8721;<sub>{0}</sub><sup>{1}</sup>'
 
-caption_start = '<p style="text-align:center">'
+caption_start = '<p style="text-align:center">Figure {0}: '
 caption_end = '</p>'
+
+table_start = '<table><tr>'
+table_end = '</table>'
+
+row_end = '</tr><tr>'
+
+element_tag = '<td>{0}</td>'

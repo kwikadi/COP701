@@ -6,7 +6,7 @@ import argparse
 
 def p_latex_complete(p):
     """
-    totaldoc : begindoc statements enddoc NEWLINE
+    totaldoc : begindoc statements enddoc
     """
     p[0] = Node('total', [p[2]])
 
@@ -19,7 +19,7 @@ def p_doc_beginning(p):
 
 def p_doc_ending(p):
     """
-    enddoc : END OB DOC CB
+    enddoc : END OB DOC CB NEWLINE
     """
 
 
@@ -43,6 +43,19 @@ def p_section_statement(p):
     """
     p[0] = Node('section', [p[3]])
 
+
+def p_label_statement(p):
+    """
+    statement : LABEL OB TEXT CB
+    """
+    p[0] = Node('label', information=p[3])
+
+
+def p_ref_statement(p):
+    """
+    statement : REF OB TEXT CB
+    """
+    p[0] = Node('ref', information=p[3])
 
 def p_subsection_statement(p):
     """
@@ -121,7 +134,6 @@ def p_math_statements(p):
     p[0] = Node('mathstats', [p[1],p[2]])
 
 
-# fix this
 def p_math_statement(p):
     """
     mathstats : mathstat
@@ -209,6 +221,60 @@ def p_sum_statement(p):
     p[0] = Node('sum', information=[p[4], p[8]], children=[p[10]])
 
 
+def p_tablestart_statement(p):
+    """
+    tabularstart : BEGIN OB TABULAR CB OB TEXT CB NEWLINE
+    """
+    p[0] = Node('tableinfo', information=p[6])
+
+
+def p_tableend_statement(p):
+    """
+    tabularend : END OB TABULAR CB
+    """
+
+
+def p_table_overview(p):
+    """
+    tab : tabularstart tabularstats tabularend
+    """
+    p[0] = Node('tabul', children=[p[2]])
+
+
+def p_tabularstats_define(p):
+    """
+    tabularstats : tabularstat tabularstats
+    """
+    p[0] = Node('tabulrecur', [p[1], p[2]])
+
+
+def p_table_body(p):
+    """
+    tabularstat : TEXT AMPERSAND tabularstat
+    """
+    p[0] = Node('element', [p[3]], information=p[1])
+
+
+def p_table2_body(p):
+    """
+    tabularstat : TEXT EOR EOR NEWLINE tabularstats
+    """
+    p[0] = Node('endelement', [p[5]], information=p[1])
+
+
+def p_tabularstat_end(p):
+    """
+    tabularstats : NEWLINE
+    """
+
+
+def p_table3_statement(p):
+    """
+    statement : tab
+    """
+    p[0] = Node('tab', children=[p[1]])
+
+
 def get_input():
 
     parser = argparse.ArgumentParser()
@@ -219,7 +285,6 @@ def get_input():
 
 input_file = get_input()
 data = get_data(input_file)
-# print(data)
 parser = yacc.yacc()
 result = parser.parse(data)
 parse_ast(result)

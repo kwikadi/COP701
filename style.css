@@ -1,0 +1,14 @@
+table, th, td {
+    border: 1px solid black;
+}
+
+p {
+    margin-left: 30px;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}

@@ -2,14 +2,14 @@ import ply.lex as lex
 from preprocess import clean_input
 
 tokens = (
-    'OB',  # open braces
-    'CB',  # close braces
-    'DOC',  # document
+    'OB',
+    'CB',
+    'DOC',
     'BEGIN',
     'END',
     'SECTION',
     'SUBSECTION',
-    'TEXT',  # the actual text to be output
+    'TEXT',
     'NEWLINE',
     'ITALICS',
     'BOLD',
@@ -27,20 +27,33 @@ tokens = (
     'ITEM',
     'INCLUDEGRAPHICS',
     'CARET',
-    'UNDERSCORE'
+    'UNDERSCORE',
+    'LABEL',
+    'REF',
+    'TABULAR',
+    'EOR',
+    'AMPERSAND'
     )
 
-t_NEWLINE = r'[\n]+'
+t_NEWLINE = r'[\n]'
 t_OB = r'{'
 t_CB = r'}'
 t_DOLLAR = r'\$'
 t_CARET = r'\^'
+t_AMPERSAND = r'&'
+
 
 def t_COMMAND(t):
-    r'\\[a-z]+'
+    r'\\[a-z]*'
 
     if t.value == '\\section':
         t.type = 'SECTION'
+
+    elif t.value == '\\ref':
+        t.type = 'REF'
+
+    elif t.value == '\\label':
+        t.type = 'LABEL'
 
     elif t.value == '\\subsection':
         t.type = 'SUBSECTION'
@@ -84,11 +97,14 @@ def t_COMMAND(t):
     elif t.value == '\\includegraphics':
         t.type = 'INCLUDEGRAPHICS'
 
+    elif t.value == '\\':
+        t.type = 'EOR'
+
     return t
 
 
 def t_TEXT(t):
-    r'[a-zA-Z0-9_., \t=]+'
+    r'[a-zA-Z0-9_.,| \t=[\]\+\-=]+'
 
     if t.value == 'document':
         t.type = 'DOC'
@@ -101,6 +117,10 @@ def t_TEXT(t):
 
     elif t.value == '_':
         t.type = 'UNDERSCORE'
+
+    elif t.value == 'tabular':
+        t.type = 'TABULAR'
+
     return t
 
 
@@ -114,10 +134,4 @@ def get_data(inputfile):
     data = clean_input(inputfile)
     lexer.input(data)
 
-
-    while True:
-        tok = lexer.token()
-        if not tok:
-            break
-        print(tok)
     return data
